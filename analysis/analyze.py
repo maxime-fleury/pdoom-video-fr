@@ -28,23 +28,27 @@ FPS = 100
 # Rule: a section starts on the downbeat of the bar in which its first lyric
 # line starts, unless that line starts with a short (< 2 beat) pickup, in which
 # case the pickup stays in the previous section.  The choruses all start with
-# a ~3-beat pickup "I'm upping my P-" over a bass stop, landing "DOOM" on the
+# a ~3-beat pickup "Je monte mon P-" over a bass stop, landing "doom" on the
 # next downbeat, so the chorus section starts at the pickup bar.
+#
+# Version française : la prise Suno dure 199.93 s au même tempo que l'original (133.5 vs
+# 132 BPM) mais l'arrangement est plus long. Mesures relevées sur les segments Whisper
+# (fr_bars.py) : voix à partir de la mesure 8.7, refrains aux mesures 20 / 40 / 60 / 84.
 SECTION_BARS = [
-    ("intro", None, 1),      # 0 .. bar 1 (1-bar synth intro, pickup "I" at 1.41)
-    ("verse1", 1, 9),        # Eb Bb Cm Ab x1 (2 bars each), no drums until bar 7
-    ("pre1", 9, 12),         # F F Ab  "ChatGPT, please don't eat me alive"
-    ("chorus1", 12, 20),     # pickup/stop bar 12, "DOOM" on bar 13
-    ("break1", 20, 21),      # 1-bar turnaround (tail of held "eyes")
-    ("verse2", 21, 29),
-    ("pre2", 29, 32),        # "Sydney, please let me free" (bass out)
-    ("chorus2", 32, 41),     # incl. bar 40 (held "reckoned", pickup "Forward")
-    ("verse3", 41, 49),
-    ("pre3", 49, 52),        # breakdown: drums + bass out, "Gato, please don't let me go"
-    ("chorus3", 52, 60),     # quiet chorus: light drums, no bass
-    ("bridge", 60, 68),      # "Just transformers ..." (full band from bar 61)
-    ("chorus4", 68, 77),     # final chorus, bar 76 = stop bar ("all for show?")
-    ("outro", 77, None),     # full band + "oh" vocals to bar 84 (152.98), then decay
+    ("intro", None, 8),      # 0 .. 8  intro instrumentale de 9 mesures, la voix entre sur un contretemps
+    ("verse1", 8, 16),       # "Je vois des éclats d'AGI dans tes yeux" (contretemps de la mesure 8)
+    ("pre1", 16, 20),        # "ChatGPT, ne m'avale pas tout cru"
+    ("chorus1", 20, 29),     # "doom" sur le temps, mesure 20
+    ("break1", 29, 30),      # transition d'une mesure
+    ("verse2", 30, 38),
+    ("pre2", 38, 40),        # "Sydney, laisse-moi m'enfuir"
+    ("chorus2", 40, 49),
+    ("verse3", 49, 56),
+    ("pre3", 56, 60),        # breakdown : batterie et basse sorties, "Gato, ne me lâche pas"
+    ("chorus3", 60, 73),     # refrain calme, sans batterie (avec la reprise "Oh oh, l'orthogonality thesis")
+    ("bridge", 73, 84),      # "Que des transformers ...", sans batterie, basse à partir de la mesure 77
+    ("chorus4", 84, 94),     # dernier refrain, "C'était juste du show" sur la mesure 93
+    ("outro", 94, None),     # hook chanté seul quatre fois, puis décroissance
 ]
 
 
@@ -315,33 +319,30 @@ def main(plots=False):
 
 
 NOTES = (
-    "Timeline = gapless mp3 decode (ffmpeg/libsndfile/browsers); Demucs stems were "
-    "shifted -23.0 ms (LAME encoder delay) to match. "
-    "Tempo is constant: {bpm:.3f} BPM (period {P:.5f} s), fitted over the whole song on "
-    "drum+mix onset envelopes (no drift: per-15 s phase deviation <= 2 ms), phase refined "
-    "on kick attack times; first beat {off:.3f} s. The grid is extrapolated through the "
-    "drum-less intro/verse1/pre3 and the fade. "
-    "Bar phase: the drums play four-on-the-floor kick with snare on beats 2 and 4 "
-    "(broadband snare bursts on odd beat indices) and 8th-note off-beat hats, which fixes "
-    "the phase up to half a bar; the half-bar ambiguity is resolved by the harmony: the "
-    "progression Eb-Bb-Cm-Ab (2 bars per chord, F-F-Ab in the pre-choruses) changes chord "
-    "exactly on beat indices = 0 mod 8, and every chorus lands 'DOOM' of 'P(doom)' on a "
-    "downbeat (bars 13/33/53/69). First downbeat {first_db:.3f} s; bar k starts "
-    "at first_downbeat + k*4*period. "
-    "Sections start on downbeats; choruses include their 3-beat pickup bar "
-    "('I'm upping my P-' over a bass stop). pre3 (89.3-94.8) is a breakdown with no drums "
-    "or bass; chorus3 (94.8-109.3) is a quiet chorus with light drums and no bass; the "
-    "full band returns in bar 61 ({b61:.2f} s). chorus4 ends with a stop bar ({b76:.2f}-{b77:.2f} s, "
-    "'all for show?'), outro is loud until {b84:.2f} s (drums stop) then decays to silence ~155.5 s. "
-    "Envelopes: 100 fps, frame i centred at i/100 s, 46 ms RMS window, one-pole smoothing "
-    "(10 ms attack / 90 ms release), each divided by its own 99th percentile and clipped "
-    "to 0..1 (linear amplitude). low <150 Hz, mid 150-2000 Hz, high >4 kHz of the full mix; "
-    "vocal/drums/bass/other = stem RMS. "
-    "Onsets [time, strength 0-1] from the drums stem: kick = attack (steepest rise) of the "
-    "<120 Hz band ({kk}); snare = 1.5-5 kHz attacks whose 0.5-5 kHz noise tail 40-120 ms later is in the "
-    "loudest local class ({sn}; kick-only in pre1/pre2); hat = >7 kHz attacks not within 40 ms of a snare or 30 ms of a kick ({hh}; mostly 8th off-beats). vocal = note "
-    "onsets from the vocal stem (log-mel flux peaks + legato pitch jumps > 0.8 semitone), "
-    "including backing vocals / ad-libs."
+    "Version française (fork) : timeline = décodage mp3 gapless ; les stems Demucs de cette "
+    "prise sont déjà alignés dessus (décalage mesuré 0 échantillon, voir fr_probe.py). "
+    "Tempo constant : {bpm:.3f} BPM (période {P:.5f} s), ajusté sur les enveloppes d'attaques "
+    "batterie+mix, phase affinée sur les attaques de grosse caisse ; premier temps {off:.3f} s. "
+    "La grille est extrapolée sur l'intro, le pré-refrain 3 et la fin. "
+    "Mesure k = premier_temps + k*4*période ; premier contretemps {first_db:.3f} s. "
+    "Structure (mesures) : intro 0-8, couplet 1 8-16, pré-refrain 16-20, refrain 1 20-29, "
+    "transition 29-30, couplet 2 30-38, pré-refrain 38-40, refrain 2 40-49, couplet 3 49-56, "
+    "pré-refrain 3 56-60 (breakdown, batterie et basse sorties), refrain 3 60-73 (calme, sans "
+    "batterie), pont 73-84 (sans batterie, basse à partir de la mesure 77, pleine bande vers "
+    "la mesure 81), refrain 4 84-94 (dernier contretemps de mesure vers {b84:.2f} s), outro "
+    "94-fin (hook chanté seul quatre fois). Particularités de la prise Suno : le refrain 3 "
+    "contient une reprise supplémentaire « Oh oh, l'orthogonality thesis » absente des paroles, "
+    "et l'outro répète le hook au lieu d'un instrumental. "
+    "Enveloppes : 100 fps, trame i centrée sur i/100 s, fenêtre RMS 46 ms, lissage un-pôle "
+    "(attaque 10 ms / relâchement 90 ms), chaque enveloppe divisée par son 99e centile puis "
+    "bornée à 0..1 (amplitude linéaire). low <150 Hz, mid 150-2000 Hz, high >4 kHz du mix ; "
+    "vocal/batterie/basse/autre = RMS des stems. "
+    "Attaques [temps, force 0-1] depuis le stem batterie : kick = début (montée la plus raide) "
+    "de la bande <120 Hz ({kk}) ; snare = attaques 1.5-5 kHz dont la queue de bruit 0.5-5 kHz "
+    "40-120 ms plus tard est dans la classe la plus forte localement ({sn}) ; hat = attaques "
+    ">7 kHz à plus de 40 ms d'une snare et 30 ms d'un kick ({hh}) ; vocal = attaques de note "
+    "du stem voix (pics de flux log-mel + sauts de hauteur legato > 0.8 demi-ton), chœurs et "
+    "ad-libs compris."
 )
 
 

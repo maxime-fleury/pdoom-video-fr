@@ -41,7 +41,7 @@ export class Schedule {
       { code: 'PDR', t: T.PDR, date: 'T−90 d', kind: 'diamond' },
       { code: 'CDR', t: T.cdr.start, date: 'T−45 d', kind: 'slot' },
       { code: 'TRR', t: T.TRR, date: 'T−14 d', kind: 'diamond' },
-      { code: 'LAUNCH', t: T.LAUNCH, date: 'T−0', kind: 'launch' },
+      { code: 'LANCEMENT', t: T.LAUNCH, date: 'T−0', kind: 'launch' },
     ];
   }
   X(t: number) { return GANTT.GX + (t - this.T.t0) * GANTT.V; }
@@ -80,9 +80,9 @@ export class Schedule {
       // title
       c.textAlign = 'left';
       c.font = font(F.mono(600), 30); c.fillStyle = rgba('bone', 0.95);
-      c.fillText('REVIEW SCHEDULE — AGI, v1.0', x0, L + G.RULER - 100);
+      c.fillText('CALENDRIER DES REVUES — AGI, v1.0', x0, L + G.RULER - 100);
       c.font = font(F.mono(400), 20); c.fillStyle = rgba('ash', 0.9);
-      c.fillText('REV C · BASELINE · ALL DATES FIRM', x0, L + G.RULER - 70);
+      c.fillText('RÉV C · RÉFÉRENCE · TOUTES LES DATES FERMES', x0, L + G.RULER - 70);
       // ruler: a tick per beat, weeks on the downbeats
       const ry = L + G.RULER;
       c.fillStyle = rgba('ash', 0.7);
@@ -105,8 +105,8 @@ export class Schedule {
       c.strokeStyle = rgba('ash', 0.55); c.lineWidth = 1.5 * px; c.setLineDash([10, 8]);
       c.beginPath(); c.moveTo(x0, L); c.lineTo(x1, L); c.stroke(); c.setLineDash([]);
       c.font = font(F.mono(500), 18); c.fillStyle = rgba('graphite', 1);
-      c.fillText('MILESTONES', x0, L - 14);
-      c.fillText('LYRIC', x0, L + G.ROW[0]! + 6);
+      c.fillText('JALONS', x0, L - 14);
+      c.fillText('PAROLES', x0, L + G.ROW[0]! + 6);
       this.drawRows(c, t, px);
       for (const m of this.ms) if (m.kind !== 'slot') this.drawMilestone(c, t, px, m);
       this.drawPlayhead(c, t, px);
@@ -121,7 +121,7 @@ export class Schedule {
         c.beginPath(); c.moveTo(lx + 6, ly - 9); c.lineTo(lx + 11, ly - 3); c.lineTo(lx + 21, ly - 17); c.stroke();
         c.lineCap = 'butt';
         c.font = font(F.mono(400), 24); c.fillStyle = rgba('ash', 1); c.textAlign = 'left';
-        c.fillText(`P(doom) ${this.pdoom} · within tolerance (±1.00)`, lx + 44, ly);
+        c.fillText(`P(doom) ${this.pdoom} · dans la tolérance (±1,00)`, lx + 44, ly);
       }
     }
     c.globalAlpha = o.alpha;
@@ -205,7 +205,7 @@ export class Schedule {
       c.strokeStyle = rgba('ash', 1); c.lineWidth = 5 * px;
       c.beginPath(); c.moveTo(x - r * 0.5, y); c.lineTo(x + r * 0.5, y); c.stroke();
       c.font = font(F.mono(500), 22); c.fillStyle = rgba('ash', prog(e, 0, 0.05));
-      c.fillText('SKIPPED', x, y + r + 34);
+      c.fillText('SAUTÉ', x, y + r + 34);
       c.textAlign = 'left';
       return;
     }
@@ -216,14 +216,14 @@ export class Schedule {
     const s = 1 + 0.25 * Math.pow(0.5, e / 0.05);
     if (m.kind === 'launch') {
       c.font = font(F.mono(500), 22); c.fillStyle = rgba('signal', prog(e, 0, 0.05));
-      c.fillText('AHEAD OF SCHEDULE', x, y + r + 34);
+      c.fillText('EN AVANCE', x, y + r + 34);
     } else {
       c.save(); c.translate(x, y); c.scale(s, s);
       c.strokeStyle = rgba('ink', 1); c.lineWidth = 6 * px * 1.2; c.lineCap = 'round'; c.lineJoin = 'round';
       c.beginPath(); c.moveTo(-14, 0); c.lineTo(-4, 11); c.lineTo(16, -13); c.stroke();
       c.restore();
       c.font = font(F.mono(500), 22); c.fillStyle = rgba('ash', prog(e, 0, 0.05));
-      c.fillText('PASSED', x, y + r + 34);
+      c.fillText('RÉUSSI', x, y + r + 34);
     }
     // ring
     const rr = r * (1 + 2.2 * ease.outCubic(prog(e, 0, 0.35)));
@@ -251,7 +251,7 @@ export class Schedule {
     c.fillRect(x - 1 * px, ry - 6, 2 * px, G.GL + 70 - ry);
     // flag with a racing countdown
     const days = t >= T.LAUNCH ? 0 : this.daysAt(t);
-    const txt = days > 0 ? `TODAY T−${days} d` : 'TODAY T−0';
+    const txt = days > 0 ? `AUJOURD’HUI T−${days} j` : 'AUJOURD’HUI T−0';
     c.font = font(F.mono(600), 20); c.textAlign = 'left';
     const tw = c.measureText(txt).width;
     c.fillStyle = rgba('signal', 1);
@@ -328,10 +328,10 @@ export class Schedule {
       // status and footnote
       const sa = prog(t, T.syl[1]! - 0.02, T.syl[1]! + 0.05);
       c.font = font(F.mono(600), 26); c.fillStyle = rgba('signal', sa);
-      c.fillText('STATUS: NOT HELD', lx + 6, base + 52);
+      c.fillText('ÉTAT : NON TENUE', lx + 6, base + 52);
       const fa = prog(t, T.syl[0]! + 0.3, T.syl[0]! + 0.45);
       c.font = font(F.mono(400), 22); c.fillStyle = rgba('ash', fa);
-      c.fillText('* CDR: Critical Design Review', lx + 6, base + 92);
+      c.fillText('* CDR : revue de conception critique', lx + 6, base + 92);
     }
     c.textAlign = 'left';
   }

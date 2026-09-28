@@ -4,7 +4,7 @@
 import { W, H } from '../engine/gl';
 import { F, layout } from '../engine/type';
 
-export const SHROOMS = 'SHROOMS';
+export const SHROOMS = 'CHAMPIS';
 export const SHROOMS_FAM = () => F.archivo(125, 900);
 /** Screen size (px) of the word at the cut. */
 export const SHROOMS_SIZE = 250;

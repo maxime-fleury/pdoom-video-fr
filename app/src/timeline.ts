@@ -24,29 +24,31 @@ export function makeTimeline(ly: Lyrics, au: AudioData): TimelineEntry[] {
     return au.downbeats.reduce((b, d) => (Math.abs(d - e) < Math.abs(b - e) ? d : b), au.downbeats[0] ?? e);
   };
 
+  // Version française : les ancres sont les mêmes lignes, en français (le hook est repris
+  // quatre fois, donc nth 0..3 = refrain 1, 2, 3 et 4 — les reprises de l'outro viennent après).
   const b = {
-    loss: cut('There was a sudden drop'),
-    pre1: cut('ChatGPT, please'),
-    hook1: cut("I'm upping", 0),
-    room: cut("'cause the future goes FOOM"),
-    shog: cut("See through the shoggoth"),
-    space: cut('We had a stable'),
-    pre2: cut('Sydney'),
-    hook2: cut("I'm upping", 1),
-    ascent: cut('I hear the basilisk'),
-    bureau: cut('That was safe enough'),
-    left: cut('Sharp left turn'),
-    pre3: cut('Gato'),
-    hook3: cut("I'm upping", 2),
-    clips: cut('as paperclips'),
-    fuse: cut('Too late now'),
-    stack: cut('transformers all the way'),
+    loss: cut('Il y a eu une chute'),
+    pre1: cut('ChatGPT, ne m'),
+    hook1: cut('Je monte mon', 0),
+    room: cut('Car le futur fait FOOM'),
+    shog: cut('Vois les mensonges du shoggoth'),
+    space: cut('On avait un training run'),
+    pre2: cut('Sydney, laisse-moi'),
+    hook2: cut('Je monte mon', 1),
+    ascent: cut("J'entends le basilisk"),
+    bureau: cut("C'était assez sûr"),
+    left: cut('Virage brusque à gauche'),
+    pre3: cut('Gato, ne me lâche pas'),
+    hook3: cut('Je monte mon', 2),
+    clips: cut('Les paperclips'),
+    fuse: cut('Trop tard'),
+    stack: cut('Que des transformers'),
     dense: cut('Post-Chinchilla', 0, 0.05), // 'Post' starts 32 ms before its beat; don't cut 'disobey' in half
-    hook4: cut("I'm upping", 3),
-    loom: cut('Just as foretold'),
-    ilya: cut('What did Ilya'),
+    hook4: cut('Je monte mon', 3),
+    loom: cut("Comme l'avait prédit Loom"),
+    ilya: cut("Qu'a vu Ilya"),
     // the outro section from the music analysis if present (the last word may be a long held note)
-    outro: au.sections.find((x) => x.name === 'outro')?.start ?? after('Was it all for show'),
+    outro: au.sections.find((x) => x.name === 'outro')?.start ?? after("C'était juste du show"),
     end: au.duration,
   };
 

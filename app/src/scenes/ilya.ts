@@ -117,7 +117,7 @@ export default class IlyaScene extends Scene {
       c.font = font(F.mono(500), 12);
       c.letterSpacing = '3px';
       c.fillStyle = rgba('signal', 0.9 * prog(t, T.knowBar + 0.1, T.knowBar + 0.2));
-      c.fillText('WITHHELD', bx, by + bh + 20);
+      c.fillText('NON DIVULGUÉ', bx, by + bh + 20);
     }
     c.restore();
   }

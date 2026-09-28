@@ -239,7 +239,7 @@ export default class Fuse extends Scene {
   override async init() {
     const { lyrics, audio } = this.ctx;
     this.pdoom = new PDoom(lyrics);
-    this.L1 = lyrics.get('lit the fuse');
+    this.L1 = lyrics.get('allumé la mèche');
     this.L2 = lyrics.get('Orthogonality');
     const find = (l: Line, q: string) => l.words.find((w) => norm(w.w).startsWith(norm(q))) ?? l.words[l.words.length - 1]!;
     this.wFuse = find(this.L1, 'fuse');
@@ -342,10 +342,10 @@ export default class Fuse extends Scene {
     // ---- agents
     const rnd = mulberry32(1010);
     const labels = [
-      ['thermostat', 0.07, 0.12], ['chess engine', 0.36, 0.08], ['paperclip maximizer', 0.93, 0.05], ['you', 0.1, 0.45],
-      ['golden retriever', 0.12, 0.9], ['a very capable stapler', 0.84, 0.2], ['the market', 0.5, 0.95], ['evolution', 0.2, 0.2],
-      ['me', 0.64, 0.15],   // the singer, carrying the P(doom) cameo
-      ['helpful assistant (claimed)', 0.95, 0.72], ['a committee', 0.45, 0.2], ['?', 0.97, 0.97],
+      ['thermostat', 0.07, 0.12], ['moteur d’échecs', 0.36, 0.08], ['maximiseur de trombones', 0.93, 0.05], ['toi', 0.1, 0.45],
+      ['retriever doré', 0.12, 0.9], ['une agrafeuse très douée', 0.84, 0.2], ['le marché', 0.5, 0.95], ['l’évolution', 0.2, 0.2],
+      ['moi', 0.64, 0.15],   // le chanteur, qui porte le caméo P(doom)
+      ['assistant serviable (soi-disant)', 0.95, 0.72], ['un comité', 0.45, 0.2], ['?', 0.97, 0.97],
     ] as const;
     const px0 = 470, px1 = 1650, py0 = 200, py1 = 690;
     const bStart = au.beatAt(this.tYAxis);
@@ -363,9 +363,9 @@ export default class Fuse extends Scene {
       const x = lerp(px0, px1, u), y = lerp(py1, py0, v);
       const beat = bStart + 1 + Math.round(((i % 6) + 0.5 * (i % 2)) * bk * 2) / 2;
       const lx = u > 0.7 ? -1 : 1, ly = v > 0.8 ? 1 : -1;
-      const pd = name === 'me';
+      const pd = name === 'moi';
       lab.push({ x, y, t0: au.timeOfBeat(beat), size: 6, kind: 4, phase: i * 1.7, group: i % 2, depth: 1, label: name, lx, ly, pdoom: pd });
-      const w = (pd ? 'me · P(doom) 0.00'.length : name.length) * 9.6 + 50;
+      const w = (pd ? 'moi · P(doom) 0.00'.length : name.length) * 9.6 + 50;
       boxes.push({ x0: lx > 0 ? x - 16 : x - w, x1: lx > 0 ? x + w : x + 16, y0: y + ly * 16 - 20, y1: y + ly * 16 + 16 });
     });
     for (let i = 0; i < 260 && this.agents.length < 200; i++) {
@@ -848,7 +848,7 @@ export default class Fuse extends Scene {
     c.textAlign = 'right';
     c.fillText('INTELLIGENCE →', XEND - 10, O.y + 40);
     c.textAlign = 'left';
-    if (ky > 0) { c.fillStyle = rgba('bone', 0.85 * ky); c.fillText('GOALS ↑', O.x + 22, YEND + 16); }
+    if (ky > 0) { c.fillStyle = rgba('bone', 0.85 * ky); c.fillText('OBJECTIFS ↑', O.x + 22, YEND + 16); }
     c.letterSpacing = '0px';
     if (kf > 0) {
       c.font = font(F.mono(500), 18); c.fillStyle = rgba('bone', 0.9 * kf);
@@ -861,7 +861,7 @@ export default class Fuse extends Scene {
     if (kn > 0) {
       c.font = font(F.serif(400, true), 24); c.fillStyle = rgba('bone', 0.7 * kn);
       c.textAlign = 'right';
-      c.fillText('Any level of intelligence, any final goal.', XEND - 10, YEND + 10);
+      c.fillText('N’importe quelle intelligence, n’importe quel but final.', XEND - 10, YEND + 10);
       c.textAlign = 'left';
     }
 
@@ -1012,7 +1012,7 @@ export default class Fuse extends Scene {
         c.textAlign = 'center';
         c.fillText('+12', tipX, tipY - 14);
         c.font = font(F.mono(400), 13); c.fillStyle = rgba('ash', 0.9 * bA);
-        c.fillText('(one octave)', tipX, tipY - 36);
+        c.fillText('(une octave)', tipX, tipY - 36);
         c.textAlign = 'left';
       }
     }
@@ -1036,7 +1036,7 @@ export default class Fuse extends Scene {
       const la = prog(t, this.tBlueNote + 0.12, this.tBlueNote + 0.4);
       c.font = font(F.mono(400), 14); c.letterSpacing = '1px';
       c.fillStyle = rgba('ash', 0.95 * la);
-      c.fillText('B-flat  ·  the blue note', fx, fy + 3 * sp + 22);
+      c.fillText('Si bémol  ·  la note bleue', fx, fy + 3 * sp + 22);
       c.restore();
     }
     c.letterSpacing = '0px';

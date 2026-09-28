@@ -352,7 +352,7 @@ export class Askew {
       c.beginPath(); c.moveTo(0, p.y + 0.5); c.lineTo(W, p.y + 0.5); c.stroke();
       c.setLineDash([]);
       c.font = font(F.mono(400), 11); c.letterSpacing = '2px'; c.fillStyle = rgba('bone', 0.55 * a);
-      c.textAlign = 'right'; c.fillText('TRUE LEVEL', W - 110, p.y - 9);
+      c.textAlign = 'right'; c.fillText('NIVEAU RÉEL', W - 110, p.y - 9);
     } else {
       const r = 300;
       // the arc and readout sit in the free wedge under the horizon: left of the crossing when the
@@ -370,7 +370,7 @@ export class Askew {
       const tx = p.x + sd * (r + 16), ty = p.y + 12 + (sd > 0 ? Math.abs(Math.tan(roll)) * (r + 16) : 0);
       c.fillText(`${deg >= 0 ? '+' : '\u2212'}${Math.abs(deg).toFixed(1).padStart(4, '0')}\u00B0`, tx, ty);
       c.font = font(F.mono(400), 11); c.letterSpacing = '2px'; c.fillStyle = rgba('bone', 0.6 * a);
-      c.fillText('ROLL', tx, ty + 28);
+      c.fillText('ROULIS', tx, ty + 28);
     }
     c.restore();
   }
@@ -532,7 +532,7 @@ export class Askew {
     c.fillStyle = rgba('ink', 0.92); c.fillRect(x, y, w, h);
     c.strokeStyle = rgba('bone', 0.35); c.lineWidth = 1; c.strokeRect(x + 0.5, y + 0.5, w, h);
     c.font = font(F.mono(500), 13); c.letterSpacing = '3px'; c.fillStyle = rgba('bone', 0.6);
-    c.fillText('REWARD MODEL', x + 18, y + 27);
+    c.fillText('MODÈLE DE RÉCOMPENSE', x + 18, y + 27);
     c.letterSpacing = '0px';
     c.font = font(F.mono(500), 46);
     const bad = r < 0.7;
@@ -541,7 +541,7 @@ export class Askew {
     // KL penalty drifts up regardless (the policy has wandered off the reference)
     const kl = 0.02 * Math.pow(1.9, Math.max(0, (t - this.t0) / 0.4545));
     c.font = font(F.mono(400), 13); c.fillStyle = rgba('bone', 0.6);
-    c.fillText(`KL penalty ${kl.toFixed(2)} nats`, x + 18, y + 55);
+    c.fillText(`pénalité KL ${kl.toFixed(2)} nats`, x + 18, y + 55);
     // preference tally: one comparison per beat, chosen (filled) / rejected (hollow)
     const n = this.kicks.filter((b) => b <= t).length;
     c.fillText('prefs', x + 18, y + 98);

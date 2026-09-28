@@ -59,8 +59,8 @@ export class IlyaTimes {
   slam: number; slit: number; dark: number; ledOff: number; knowBar: number; meet: number;
   constructor(ly: Lyrics, au: AudioData, start: number, end: number) {
     this.start = start; this.end = end;
-    this.l1 = ly.get('What did Ilya');
-    this.l2 = ly.get('all for show');
+    this.l1 = ly.get("Qu'a vu Ilya");
+    this.l2 = ly.get('juste du show');
     const w1 = this.l1.words, w2 = this.l2.words;
     const find = (ws: Word[], re: RegExp, i: number) => ws.find((w) => re.test(w.w)) ?? ws[i]!;
     this.what = w1[0]!; this.see = find(w1, /see/i, 3); this.well = find(w1, /we[’']?ll/i, 4);
@@ -150,9 +150,9 @@ export class IlyaRoom {
       c.fillStyle = ink; c.letterSpacing = '2px';
       let fs = 86;
       c.font = font(F.archivo(100, 800), fs);
-      fs *= Math.min(1, 470 / c.measureText('FEEL THE AGI').width);
+      fs *= Math.min(1, 470 / c.measureText('RESSENS L’AGI').width);
       c.font = font(F.archivo(100, 800), fs);
-      c.fillText('FEEL THE AGI', 0, 5);
+      c.fillText('RESSENS L’AGI', 0, 5);
       c.letterSpacing = '0px';
       c.fillStyle = 'rgba(255,255,255,0.22)'; c.beginPath(); c.moveTo(270, -86); c.lineTo(222, -86); c.lineTo(270, -40); c.closePath(); c.fill();
     });
@@ -193,7 +193,7 @@ export class IlyaRoom {
       shadow(); c.beginPath(); c.ellipse(0, 0, 250, 108, 0, 0, TAU); c.fillStyle = bone; c.fill(); noShadow();
       c.lineWidth = 4; c.strokeStyle = ink; c.beginPath(); c.ellipse(0, 0, 232, 92, 0, 0, TAU); c.stroke();
       c.fillStyle = ink; c.font = font(F.mono(600), 44); c.letterSpacing = '4px';
-      c.fillText('SLIGHTLY', 0, -22); c.fillText('CONSCIOUS', 0, 30);
+      c.fillText('LÉGÈREMENT', 0, -22); c.fillText('CONSCIENT', 0, 30);
       c.letterSpacing = '0px';
     });
     // Q*
@@ -246,7 +246,7 @@ export class IlyaRoom {
       c.textBaseline = 'middle';
       c.textAlign = 'center';
       c.letterSpacing = '14px';
-      c.fillText('REDACTED', 7, 2);
+      c.fillText('CAVIARDÉ', 7, 2);
       c.restore();
     }
     this.screenTex.needsUpdate = true;

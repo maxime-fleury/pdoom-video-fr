@@ -461,7 +461,7 @@ export class Press {
       c.lineWidth = 1;
       bowPath(c, r, bow);
       c.stroke();
-      this.label(c, 'TITLE SAFE 90%', r.x0 + 26, r.y0 - 0.06 * bow, inA);
+      this.label(c, 'TITRE SÛR 90%', r.x0 + 26, r.y0 - 0.06 * bow, inA);
     } else {
       this.trip(glow, r, dt);
       const life = 1 - prog(dt, 0.3, 0.75);
@@ -482,7 +482,7 @@ export class Press {
           this.recoil(c, glow, r.x0, yy, px, yy, 0, ny, dt, 0.8 * life, 11 + ny);
           this.recoil(c, glow, r.x1, yy, px, yy, 0, ny, dt, 0.8 * life, 13 + ny);
         }
-        this.label(c, 'TITLE SAFE 90%', r.x0 + 26, r.y0 - 30 * ease.outCubic(prog(dt, 0, 0.3)), life, false, ease.outExpo(prog(dt, 0, 0.1)));
+        this.label(c, 'TITRE SÛR 90%', r.x0 + 26, r.y0 - 30 * ease.outCubic(prog(dt, 0, 0.3)), life, false, ease.outExpo(prog(dt, 0, 0.1)));
       }
     }
     c.restore();
@@ -500,7 +500,7 @@ export class Press {
       c.lineWidth = 1 + 0.25 * load;
       bowPath(c, r, bow);
       c.stroke();
-      this.label(c, 'ACTION SAFE 93%', r.x1 - 26, r.y0 - 0.06 * bow, inA, true);
+      this.label(c, 'ACTION SÛRE 93%', r.x1 - 26, r.y0 - 0.06 * bow, inA, true);
     } else {
       this.trip(glow, r, dt);
       const life = 1 - prog(dt, 0.3, 0.75);
@@ -524,7 +524,7 @@ export class Press {
           this.recoil(c, glow, r.x0, yy, px, yy, 0, ny, d2, 0.85 * life, 35 + ny);
           this.recoil(c, glow, r.x1, yy, px, yy, 0, ny, d2, 0.85 * life, 37 + ny);
         }
-        this.label(c, 'ACTION SAFE 93%', r.x1 - 26, r.y0 - 30 * ease.outCubic(prog(dt, 0, 0.3)), life, true, ease.outExpo(prog(dt, 0, 0.1)));
+        this.label(c, 'ACTION SÛRE 93%', r.x1 - 26, r.y0 - 30 * ease.outCubic(prog(dt, 0, 0.3)), life, true, ease.outExpo(prog(dt, 0, 0.1)));
       }
     }
     c.restore();
@@ -545,7 +545,7 @@ export class Press {
       c.lineWidth = 1.5;
       bowPath(c, BORDER, bow);
       c.stroke();
-      this.label(c, t >= tB ? 'FRAME 100% — UNDER LOAD' : 'FRAME 100%', W / 2, 16 - 0.5 * bow, a / 0.75, false);
+      this.label(c, t >= tB ? 'CADRE 100% — SOUS CHARGE' : 'CADRE 100%', W / 2, 16 - 0.5 * bow, a / 0.75, false);
     }
     if (snap >= 0) this.trip(glow, { x0: 1, y0: 1, x1: W - 1, y1: H - 1 }, snap, 1.4);
     // crop marks: the frame's guides, shown with its border (the video is otherwise full-bleed)
@@ -605,12 +605,12 @@ export class Press {
     c.fillRect(x, y, w, h);
     c.strokeStyle = rgba('bone', 0.35); c.lineWidth = 1; c.strokeRect(x + 0.5, y + 0.5, w, h);
     c.font = font(F.mono(500), 13); c.letterSpacing = '3px'; c.fillStyle = rgba('bone', 0.6);
-    c.fillText('TOKENS / PARAM', x + 20, y + 30);
+    c.fillText('JETONS / PARAM', x + 20, y + 30);
     c.letterSpacing = '0px';
     c.font = font(F.mono(500), 50);
     c.fillStyle = k === 3 ? rgba('signal') : rgba('bone', 0.95);
     c.textAlign = 'right';
-    c.fillText(v.toLocaleString('en-US'), x + w - 20, y + 86);
+    c.fillText(v.toLocaleString('fr-FR'), x + w - 20, y + 86);
     c.textAlign = 'left';
     // log scale 1 … 100k with the Chinchilla-optimal tick at 20
     const bx = x + 20, bw = w - 40, by = y + 110;
@@ -620,16 +620,16 @@ export class Press {
     c.fillStyle = rgba('signal'); c.fillRect(bx, by - 1, X(v) - bx, 3);
     c.fillStyle = rgba('bone', 0.9); c.fillRect(X(20), by - 9, 1, 18);
     c.font = font(F.mono(400), 12); c.fillStyle = rgba('bone', 0.6);
-    c.fillText('20 = Chinchilla-optimal', X(20) - 3, by + 26);
+    c.fillText('20 = optimal Chinchilla', X(20) - 3, by + 26);
     c.restore();
   }
 
   private drawQC(c: CanvasRenderingContext2D, t: number) {
     const msgs = [
-      ['WARN', 'text outside title safe (90%)'],
-      ['WARN', 'text outside action safe (93%)'],
-      ['WARN', 'frame under load'],
-      ['FAIL', 'text outside frame'],
+      ['ALERTE', 'texte hors zone titre (90%)'],
+      ['ALERTE', 'texte hors zone action (93%)'],
+      ['ALERTE', 'cadre sous charge'],
+      ['ÉCHEC', 'texte hors cadre'],
     ];
     const shown = this.rup.filter((r) => t >= r).length;
     if (shown === 0) return;
@@ -642,7 +642,7 @@ export class Press {
       const tr = this.rup[i]!;
       const a = prog(t, tr, tr + 0.04);
       const y = y0 + i * lh;
-      const fail = msgs[i]![0] === 'FAIL';
+      const fail = msgs[i]![0] === 'ÉCHEC';
       c.fillStyle = rgba('ink', 0.9 * a); c.fillRect(x - 8, y - 15, 560, lh);
       c.fillStyle = rgba('bone', 0.55 * a); c.fillText(`QC  ${timecode(tr)}`, x, y);
       c.fillStyle = fail ? rgba('signal', a) : rgba('ember', 0.95 * a);

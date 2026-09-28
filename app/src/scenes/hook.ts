@@ -1,4 +1,4 @@
-// HOOK x4 — "I'M / UPPING / MY / P(DOOM)": one full-frame slam per sung word, then P(doom)
+// HOOK x4 — "JE / MONTE / MON / P(DOOM)": one full-frame slam per sung word, then P(doom)
 // itself takes the frame (maths label, rolling digits, scale) and leaves on the cut, a different
 // way each time:
 //   n=1 bone on ink, clean. The number lands on the DOOM hit; on the next 8th it implodes into a
@@ -39,10 +39,10 @@ const THREAD = { y: 629, sparkX: 300 };
 
 /** Deadpan footnote under the big number (Δ is computed from the actual step). */
 const NOTES: Record<number, string> = {
-  1: 'posterior · updated on one (1) chatbot',
-  2: 'posterior · updated on Sydney',
-  3: 'posterior · updated on a cat',
-  4: 'posterior · rounded up',
+  1: 'postérieure · mise à jour sur un (1) chatbot',
+  2: 'postérieure · mise à jour sur Sydney',
+  3: 'postérieure · mise à jour sur un chat',
+  4: 'postérieure · arrondie vers le haut',
 };
 
 type Col = keyof typeof HEX;
@@ -73,7 +73,8 @@ export default class Hook extends Scene {
     this.n = Number(params.n ?? 1);
     const n = this.n;
     this.pd = new PDoom(lyrics);
-    const line = lyrics.linesIn(start - 0.3, end).find((l) => /upping/i.test(l.text)) ?? lyrics.linesIn(start, end)[0]!;
+    // version FR : le hook est « Je monte mon P(doom) », quatre mots comme l'original
+    const line = lyrics.linesIn(start - 0.3, end).find((l) => /monte/i.test(l.text)) ?? lyrics.linesIn(start, end)[0]!;
     this.words = line.words.slice(0, 4);
     const prev = lyrics.lines[line.i - 1];
     this.prevWord = prev ? plain(prev.words[prev.words.length - 1]!.w) : ''; // typed (mono): typewriter quotes
@@ -103,7 +104,7 @@ export default class Hook extends Scene {
     } else {
       this.tX0 = end - 0.1; this.tX1 = end - 0.008;
     }
-    this.upLay = layout('UPPING', this.f.up, 100);
+    this.upLay = layout('MONTE', this.f.up, 100);
     this.finLay = layout('P(DOOM)', this.f.doom, ROOM.size);
     this.comp = new FSPass(COMP, {
       tex: { value: this.L.texture }, bgCol: { value: [0, 0, 0] }, echo: { value: 0 }, hot: { value: 1 }, gain: { value: 1 },
@@ -148,7 +149,7 @@ export default class Hook extends Scene {
       bgK = m === 0 ? 'ink' : m === 1 ? 'signal' : 'bone';
       inkK = m === 0 ? 'bone' : 'ink';
     }
-    if (n === 1 && t < this.ws[0]!) { bgK = 'bone'; inkK = 'ink'; } // hold the prompt's white-out until I'M
+    if (n === 1 && t < this.ws[0]!) { bgK = 'bone'; inkK = 'ink'; } // hold the prompt's white-out until JE
     // punch frames: 2 inverted frames on every slam (not in the breakdown; hook 2's DOOM is the eyelid)
     const punchT = [...this.ws.slice(0, 3), n === 3 ? -9 : this.tP, n === 2 || n === 3 ? -9 : this.tDoom];
     const punch = n !== 3 && punchT.some((x) => t >= x && t < x + 2 / 60);
@@ -184,7 +185,7 @@ export default class Hook extends Scene {
 
     // ---- camera-ish post
     if (n === 4 && t < this.ws[0]!) {
-      // continuing "RLHF goes askew": the frame is still rolled, it snaps straight on I'M
+      // continuing "Le RLHF part en vrille": the frame is still rolled, it snaps straight on JE
       o.zoom = 1.08;
     }
     const hit = pulse(t, this.tDoom, 0.06);
@@ -216,12 +217,12 @@ export default class Hook extends Scene {
     c.fillRect(W / 2 - 400 * k, H / 2, 800 * k, 1);
   }
 
-  /** Hook 4 pre-roll: the frame still askew from the previous plate; outlines of I'M pulse in. */
+  /** Hook 4 pre-roll: the frame still askew from the previous plate; outlines of JE pulse in. */
   private drawAskew(c: CanvasRenderingContext2D, t: number) {
     const t0 = this.ws[0]!;
     const k = prog(t, this.ctx.start, t0);
     const fam = this.f.im, size = 1150;
-    const w = measure('I’M', fam, size);
+    const w = measure('JE', fam, size);
     c.save();
     c.translate(W / 2, H / 2);
     c.rotate(-0.12 * (1 - k * k));
@@ -231,7 +232,7 @@ export default class Hook extends Scene {
       c.save(); c.scale(sc, sc);
       c.strokeStyle = rgba(j % 2 ? 'signal' : 'bone', 0.5 * sc);
       c.lineWidth = 2 / sc;
-      c.strokeText('I’M', -w / 2, (size * CAP) / 2);
+      c.strokeText('JE', -w / 2, (size * CAP) / 2);
       c.restore();
     }
     c.restore();
@@ -247,14 +248,14 @@ export default class Hook extends Scene {
     c.font = font(this.f.mono, 11);
     c.fillStyle = rgba(ink, 0.5 * a);
     c.fillText('baseline', 96, Math.round(base) + 16);
-    c.fillText(`cap-height · ${(CAP).toFixed(3)} em`, 96, Math.round(base - capH) - 8);
+    c.fillText(`hauteur de capitale · ${(CAP).toFixed(3)} em`, 96, Math.round(base - capH) - 8);
     c.restore();
   }
 
   private drawIM(c: CanvasRenderingContext2D, t: number, ink: Col) {
     const n = this.n, t0 = this.ws[0]!;
     const fam = this.f.im;
-    const w1 = measure('I’M', fam, 100) / 100;
+    const w1 = measure('JE', fam, 100) / 100;
     const size = Math.min(n === 1 ? 980 : 1200, (W - 150) / w1);
     const s = this.slam(t, t0, n === 4 ? 0.3 : 0.16);
     const w = w1 * size;
@@ -263,10 +264,10 @@ export default class Hook extends Scene {
     c.save();
     c.translate(W / 2, base);
     c.scale(s, s);
-    if (n === 4) this.echoes(c, 'I’M', fam, size, -w / 2, 0, t, t0);
+    if (n === 4) this.echoes(c, 'JE', fam, size, -w / 2, 0, t, t0);
     c.font = font(fam, size);
     c.fillStyle = rgba(ink);
-    c.fillText('I’M', -w / 2, 0);
+    c.fillText('JE', -w / 2, 0);
     c.restore();
   }
 
@@ -274,14 +275,14 @@ export default class Hook extends Scene {
     const n = this.n, t0 = this.ws[1]!, t1 = this.ws[2] ?? t0 + 0.4;
     const fam = this.f.up;
     const size = Math.min(900, (W - 150) / (this.upLay.width / 100));
-    const lay = layout('UPPING', fam, size);
+    const lay = layout('MONTE', fam, size);
     const x0 = (W - lay.width) / 2;
     const capH = size * CAP;
     const endY = H / 2 + capH / 2 - 30;
     const hold = t1 - t0;
     const dur = Math.min(0.3, hold * 0.8);
     const stagger = Math.min(0.035, hold * 0.08);
-    // hook 4 holds "upping" ~1 s: the word launches again on every 8th note, a stream of rising copies
+    // hook 4 holds "monte" ~1 s: the word launches again on every 8th note, a stream of rising copies
     const period = n === 4 ? this.ctx.audio.timeOfBeat(this.ctx.audio.beatAt(t0) + 0.5) - t0 : 99;
     const reps = n === 4 ? Math.min(8, 1 + Math.floor(Math.max(0, t - t0) / Math.max(0.12, period))) : 1;
     this.guides(c, endY, capH, ink, 0.6);
@@ -328,16 +329,16 @@ export default class Hook extends Scene {
     const fam = this.f.my;
     const size = n === 1 ? 1300 : 1420;
     const s = this.slam(t, t0, n === 4 ? 0.3 : 0.12);
-    const w = measure('MY', fam, size);
+    const w = measure('MON', fam, size);
     const base = H / 2 + (size * CAP) / 2;
     this.guides(c, base, size * CAP, ink);
     c.save();
     c.translate(W / 2, base);
     c.scale(s, s);
-    if (n === 4) this.echoes(c, 'MY', fam, size, -w / 2, 0, t, t0);
+    if (n === 4) this.echoes(c, 'MON', fam, size, -w / 2, 0, t, t0);
     c.font = font(fam, size);
     c.fillStyle = rgba(ink);
-    c.fillText('MY', -w / 2, 0);
+    c.fillText('MON', -w / 2, 0);
     c.restore();
   }
 
@@ -416,7 +417,7 @@ export default class Hook extends Scene {
 
   /** Hook 3: tiny hairline words in a lot of black; earlier words climb away above, fading. */
   private drawTiny(c: CanvasRenderingContext2D, t: number, wi: number, fade = 1, skip = -1) {
-    const labels = ['I’M', 'UPPING', 'MY', 'P(DOOM)'];
+    const labels = ['JE', 'MONTE', 'MON', 'P(DOOM)'];
     const fam = this.f.hair, size = 54, track = 16, gap = 84;
     const cy = H / 2 + (size * CAP) / 2;
     for (let i = 0; i <= wi; i++) {
@@ -426,7 +427,7 @@ export default class Hook extends Scene {
       // the stack scrolls up one slot per new word (eased), plus a slow drift
       let slot = 0;
       for (let j = i + 1; j <= wi; j++) slot += ease.outExpo(clamp((t - this.ws[j]!) / 0.3));
-      // each new word rises into its slot from below (UPPING from further), clear of the one leaving
+      // each new word rises into its slot from below (MONTE from further), clear of the one leaving
       const rise = -(1 - ease.outExpo(clamp(since / 0.3))) * (i === 1 ? gap : gap * 0.5);
       const y = cy - slot * gap - rise - since * 8;
       const a = (cur ? 0.95 : 0.22 / slot) * fade;
@@ -452,7 +453,7 @@ export default class Hook extends Scene {
     c.save();
     c.font = font(this.f.monoM, 13);
     c.letterSpacing = '3px';
-    const labels = ["I'M", 'UPPING', 'MY', 'P(DOOM)']; // mono UI legend: typewriter apostrophe
+    const labels = ["JE", 'MONTE', 'MON', 'P(DOOM)']; // mono UI legend: typewriter apostrophe
     let x = 96;
     labels.forEach((l, i) => {
       const s = `${String(i + 1).padStart(2, '0')} ${l}`;
@@ -462,7 +463,7 @@ export default class Hook extends Scene {
     });
     c.textAlign = 'right';
     c.fillStyle = rgba(ink, 0.5);
-    c.fillText(`HOOK ${this.n} / 4`, W - 96, 84);
+    c.fillText(`REFRAIN ${this.n} / 4`, W - 96, 84);
     c.restore();
     void t;
   }

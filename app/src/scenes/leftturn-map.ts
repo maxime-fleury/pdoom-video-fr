@@ -18,11 +18,11 @@ export const MAP = {
   TURN_Y: 2800, // the swerve
   RT: 60, // corner radius
   ms: [
-    { code: 'SRR', name: 'System Requirements Review', y: 3580, date: 'T−120 d' },
-    { code: 'PDR', name: 'Preliminary Design Review', y: 3200, date: 'T−90 d' },
-    { code: 'CDR', name: 'Critical Design Review', y: 2440, date: 'T−45 d' },
-    { code: 'TRR', name: 'Test Readiness Review', y: 1900, date: 'T−14 d' },
-    { code: 'LAUNCH', name: '', y: 1300, date: 'T−0' },
+    { code: 'SRR', name: 'Revue des exigences système', y: 3580, date: 'T−120 d' },
+    { code: 'PDR', name: 'Revue de conception préliminaire', y: 3200, date: 'T−90 d' },
+    { code: 'CDR', name: 'Revue de conception critique', y: 2440, date: 'T−45 d' },
+    { code: 'TRR', name: 'Revue de préparation aux essais', y: 1900, date: 'T−14 d' },
+    { code: 'LANCEMENT', name: '', y: 1300, date: 'T−0' },
   ],
   SHARP_Y: 3390,
   LEFT_Y: 2990,
@@ -75,7 +75,7 @@ export function drawMap(): HTMLCanvasElement {
   c.save();
   c.translate(PX + 128, 2150); c.rotate(-Math.PI / 2);
   c.font = font(F.mono(500), 20); c.fillStyle = rgba('ash', 0.75); c.letterSpacing = '4px';
-  c.fillText('±3σ SCHEDULE ENVELOPE', 0, 0);
+  c.fillText('ENVELOPPE DE PLANNING ±3σ', 0, 0);
   c.restore();
   // planned route: dashed centre line continuing past every milestone, arrow at the top
   c.strokeStyle = rgba('bone', 0.85);
@@ -90,7 +90,7 @@ export function drawMap(): HTMLCanvasElement {
     const y = m.y;
     c.save();
     c.translate(PX, y);
-    if (m.code === 'LAUNCH') {
+    if (m.code === 'LANCEMENT') {
       c.strokeStyle = rgba('bone', 1); c.lineWidth = 4;
       c.beginPath(); c.moveTo(0, -40); c.lineTo(36, 26); c.lineTo(-36, 26); c.closePath(); c.stroke();
     } else {
@@ -111,7 +111,7 @@ export function drawMap(): HTMLCanvasElement {
     c.strokeStyle = rgba('bone', 0.9); c.lineWidth = 3;
     c.strokeRect(-158, -26, 52, 52);
     c.font = font(F.mono(500), 16); c.fillStyle = rgba('graphite', 1);
-    c.fillText('STATUS', -166, 50);
+    c.fillText('ÉTAT', -166, 50);
     c.restore();
   }
   // "you are here"
@@ -122,11 +122,11 @@ export function drawMap(): HTMLCanvasElement {
   c.beginPath(); c.moveTo(-180, 0); c.lineTo(-40, 0); c.stroke();
   c.beginPath(); c.moveTo(-40, 0); c.lineTo(-58, -10); c.lineTo(-58, 10); c.closePath(); c.fillStyle = rgba('bone', 0.9); c.fill();
   c.font = font(F.mono(600), 26); c.fillStyle = rgba('bone', 0.95); c.textAlign = 'right';
-  c.fillText('YOU ARE HERE', -196, 9);
+  c.fillText('VOUS ÊTES ICI', -196, 9);
   c.restore();
   // time ruler on the left of the route
   c.fillStyle = rgba('ash', 0.6);
-  const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  const months = ['JANV', 'FÉV', 'MARS', 'AVR', 'MAI', 'JUIN', 'JUIL', 'AOÛT', 'SEPT', 'OCT', 'NOV', 'DÉC'];
   for (let y = Y0, i = 0; y > 1000; y -= 50, i++) {
     const big = i % 6 === 0;
     c.fillRect(PX - 300, y, big ? 40 : 18, 2);
@@ -135,7 +135,7 @@ export function drawMap(): HTMLCanvasElement {
   c.fillRect(PX - 300, 1000, 2, Y0 - 1000);
   // critical path callout
   c.font = font(F.mono(400, true), 24); c.fillStyle = rgba('ash', 0.9); c.textAlign = 'left';
-  c.fillText('critical path (do not deviate)', PX + 190, 2800);
+  c.fillText('chemin critique (ne pas dévier)', PX + 190, 2800);
   c.strokeStyle = rgba('ash', 0.7); c.lineWidth = 2;
   c.beginPath(); c.moveTo(PX + 185, 2792); c.lineTo(PX + 30, 2792); c.stroke();
   // compass
@@ -153,13 +153,13 @@ export function drawMap(): HTMLCanvasElement {
   for (const y of [70, 130, 190, 250]) { c.beginPath(); c.moveTo(0, y); c.lineTo(640, y); c.stroke(); }
   c.beginPath(); c.moveTo(320, 130); c.lineTo(320, 330); c.stroke();
   c.font = font(F.mono(600), 30); c.fillStyle = rgba('bone', 1); c.textAlign = 'left';
-  c.fillText('ROADMAP — AGI, v1.0', 18, 46);
+  c.fillText('FEUILLE DE ROUTE — AGI, v1.0', 18, 46);
   c.font = font(F.mono(400), 20); c.fillStyle = rgba('ash', 1);
-  c.fillText('REV C · SUPERSEDES REV B (ALSO FINE)', 18, 108);
+  c.fillText('RÉV C · REMPLACE LA RÉV B (TRÈS BIEN AUSSI)', 18, 108);
   const cells: [string, string, number, number][] = [
-    ['DRAWN', 'ALIGNMENT TEAM', 18, 168], ['CHECKED', '—', 338, 168],
-    ['APPROVED', 'PENDING', 18, 228], ['SCALE', 'NOT TO SCALE', 338, 228],
-    ['SHEET', '1 OF 1', 18, 300], ['DATE', 'SOON', 338, 300],
+    ['DESSINÉ', 'ÉQUIPE ALIGNEMENT', 18, 168], ['VÉRIFIÉ', '—', 338, 168],
+    ['APPROUVÉ', 'EN ATTENTE', 18, 228], ['ÉCHELLE', 'PAS À L’ÉCHELLE', 338, 228],
+    ['FEUILLE', '1 SUR 1', 18, 300], ['DATE', 'BIENTÔT', 338, 300],
   ];
   for (const [k, v, x, y] of cells) {
     c.font = font(F.mono(500), 14); c.fillStyle = rgba('graphite', 1); c.fillText(k, x, y - 26);
@@ -190,7 +190,7 @@ export function makeMarksTexture(): THREE.DataTexture {
     c.restore();
   };
   c.globalCompositeOperation = 'lighter';
-  paint('SHARP', MAP.PX, MAP.SHARP_Y, 0, 'rgb(255,0,0)');
+  paint('VIRAGE', MAP.PX, MAP.SHARP_Y, 0, 'rgb(255,0,0)');
   paint('LEFT', MAP.PX, MAP.LEFT_Y, 0, 'rgb(0,255,0)');
   // turn arrow: stem north, bending west, head pointing west
   c.save();
@@ -200,9 +200,9 @@ export function makeMarksTexture(): THREE.DataTexture {
   c.beginPath(); c.moveTo(ax, ay + 80); c.lineTo(ax, ay - 20); c.arc(ax - 70, ay - 20, 70, 0, -Math.PI / 2, true); c.lineTo(ax - 120, ay - 90); c.stroke();
   c.beginPath(); c.moveTo(ax - 190, ay - 90); c.lineTo(ax - 120, ay - 140); c.lineTo(ax - 120, ay - 40); c.closePath(); c.fill();
   c.restore();
-  paint('TURN', MAP.TURN_X, MAP.TURN_Y, -Math.PI / 2, 'rgb(0,0,255)');
-  paint('AND', MAP.AND_X, MAP.TURN_Y, -Math.PI / 2, 'rgb(0,0,255)', 100, 1.75);
-  paint('THERE', MAP.THERE_X, MAP.TURN_Y, -Math.PI / 2, 'rgb(0,255,0)', 100, 1.75);
+  paint('BRUSQUE', MAP.TURN_X, MAP.TURN_Y, -Math.PI / 2, 'rgb(0,0,255)');
+  paint('À GAUCHE', MAP.AND_X, MAP.TURN_Y, -Math.PI / 2, 'rgb(0,0,255)', 100, 1.75);
+  paint('TE VOILÀ', MAP.THERE_X, MAP.TURN_Y, -Math.PI / 2, 'rgb(0,255,0)', 100, 1.75);
   const rgb = c.getImageData(0, 0, N, N).data;
   // check marks
   const cvA = canvas(N);

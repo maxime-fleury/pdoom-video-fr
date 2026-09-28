@@ -50,7 +50,7 @@ export default class Ascent extends Scene {
     this.pd = new PDoom(ly);
     const T = this.T;
     T.l1 = ly.get('basilisk');
-    T.l2 = ly.get('to the moon');
+    T.l2 = ly.get('vers la lune');
     T.l3 = ly.get('Omega');
     T.l4 = ly.get('flops');
     T.boom = wordOf(T.l1, 'boom').start;
@@ -426,10 +426,10 @@ export default class Ascent extends Scene {
         c.font = font(F.mono(400, true), 20 * z); c.fillStyle = rgba('graphite', 0.9 * gridFade(y)); c.fillText(s, p.x, p.y);
         c.font = font(F.mono(500), lsz);
       };
-      note(12, '← still log scale');
-      note(19, '← yes, still log scale');
-      note(24, '← analysts: “fair value”');
-      note(27, '← we checked the axis');
+      note(12, '← toujours en échelle log');
+      note(19, '← oui, toujours en échelle log');
+      note(24, '← les analystes : « juste valeur »');
+      note(27, '← on a vérifié l’axe');
       const tt = S(-1640, 6.4 * DEC);
       c.font = font(F.mono(600), 26 * z); c.fillStyle = rgba('ink', 0.85);
       c.fillText('NVDA · 1D · LOG', tt.x, tt.y);
@@ -441,11 +441,11 @@ export default class Ascent extends Scene {
       const mc = S(MOON.x, MOON.y);
       c.save();
       c.fillStyle = rgba('ink', 0.92);
-      this.arcText(c, 'LUNAR RESERVE NOTE', mc.x, mc.y, (MOON.r * 1.8) * z, F.serif(600), 34 * z, 0.2);
+      this.arcText(c, 'BILLET DE RÉSERVE LUNAIRE', mc.x, mc.y, (MOON.r * 1.8) * z, F.serif(600), 34 * z, 0.2);
       c.font = font(F.serif(400, true), 20 * z);
       c.textAlign = 'center';
       const mp = S(MOON.x, MOON.y - MOON.r * 1.9);
-      c.fillText('In Scaling We Trust', mp.x, mp.y);
+      c.fillText('En l’échelle nous croyons', mp.x, mp.y);
       // corner numerals and serials
       const cn = (x: number, y: number, al: CanvasTextAlign) => {
         const p = S(x, y);
@@ -786,7 +786,7 @@ export default class Ascent extends Scene {
     }
     // notation: 1 E 30 FLOP /s  (one token per sung word)
     const l4 = T.l4;
-    const tok: [string, string][] = [['1', 'one'], ['E', 'E'], ['30', 'thirty'], ['FLOP', 'flops'], ['/s', 'a second']];
+    const tok: [string, string][] = [['1', 'un'], ['E', 'E'], ['30', 'trente'], ['FLOP', 'flops'], ['/s', 'par seconde']];
     const wds = l4.words;
     const tokWords: Word[][] = [[wds[0]!], [wds[1]!], [wds[2]!], [wds[3]!], wds.slice(4)];
     const nf = F.archivo(100, 900), ns = 150;
@@ -829,7 +829,7 @@ export default class Ascent extends Scene {
     // footnote marker + footnote typed after the lock
     if (t > tL) {
       c.font = font(nf, 60); c.fillStyle = rgba('signal', 1); c.fillText('¹', x - 8, yN - 80);
-      const fn = '¹ One nonillion floating-point operations per second. Rounded down, for safety.';
+      const fn = '¹ Un nonillion d’opérations en virgule flottante par seconde. Arrondi vers le bas, par prudence.';
       const n = Math.floor(fn.length * prog(t, tL + 0.3, tL + 1.05));
       c.font = font(F.mono(400), 20);
       c.fillStyle = rgba('ash', 0.95);
@@ -838,7 +838,7 @@ export default class Ascent extends Scene {
       c.fillStyle = rgba('graphite', 0.9);
       c.fillRect(150, 812, 220, 1);
       // P(doom) cameo: a second footnote, same rounding policy
-      const fn2 = `² P(doom): ${formatPDoom(this.pd.value(t))}. Also rounded down.`;
+      const fn2 = `² P(doom) : ${formatPDoom(this.pd.value(t))}. Arrondi vers le bas aussi.`;
       const n2 = Math.floor(fn2.length * prog(t, tL + 1.15, tL + 1.55));
       c.fillStyle = rgba('ash', 0.95);
       c.fillText(fn2.slice(0, n2), 150, 874);

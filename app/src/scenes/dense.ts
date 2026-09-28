@@ -36,7 +36,7 @@ export default class Dense extends Scene {
     const { lyrics, audio } = this.ctx;
     this.L1 = lyrics.get('Post-Chinchilla');
     this.L2 = lyrics.get('safety fence');
-    this.L3 = lyrics.get('Hundred thousand');
+    this.L3 = lyrics.get('Cent mille');
     this.L4 = lyrics.get('RLHF');
     this.c2 = cutBeat(audio, this.L2.words[0]!.start);
     this.c3 = cutBeat(audio, this.L3.words[0]!.start);
@@ -116,18 +116,18 @@ export default class Dense extends Scene {
     c.strokeStyle = rgba('bone', 0.35); c.lineWidth = 1; c.strokeRect(pxX + 0.5, pxY + 0.5, 380, ph);
     c.translate(pxX - 96, pxY - 88);
     c.font = font(F.mono(500), 14); c.letterSpacing = '3px'; c.fillStyle = rgba('bone', 0.6);
-    c.fillText('ACCELERATORS ONLINE', 116, 116);
+    c.fillText('ACCÉLÉRATEURS EN LIGNE', 116, 116);
     c.letterSpacing = '0px';
     c.font = font(F.mono(500), 58); c.fillStyle = t >= wH.start ? rgba('bone', 0.95) : rgba('bone', 0.4);
-    c.fillText(val.toLocaleString('en-US').padStart(7, ' '), 112, 178);
+    c.fillText(val.toLocaleString('fr-FR').padStart(7, ' '), 112, 178);
     c.font = font(F.mono(400), 14); c.fillStyle = rgba('bone', 0.5);
-    c.fillText(`util ${(97 + 2.9 * Math.abs(Math.sin(t * 3.1))).toFixed(1)}%  ·  1.4 GW  ·  ${GXY} cells`, 116, 212);
+    c.fillText(`util ${(97 + 2.9 * Math.abs(Math.sin(t * 3.1))).toFixed(1)}%  ·  1.4 GW  ·  ${GXY} cellules`, 116, 212);
     // P(doom) cameo: one more line on the dashboard, a hairline rule above it
     c.fillStyle = rgba('bone', 0.18); c.fillRect(116, 226, 348, 1);
     c.font = font(F.mono(500), 15); c.letterSpacing = '2px'; c.fillStyle = rgba('signal', 0.95);
     c.fillText(`P(DOOM) ${formatPDoom(this.pd.value(t))}`, 116, 250);
     c.letterSpacing = '0px'; c.font = font(F.mono(400), 13); c.fillStyle = rgba('bone', 0.45);
-    c.textAlign = 'right'; c.fillText('scaling as planned', 116 + 348, 250); c.textAlign = 'left';
+    c.textAlign = 'right'; c.fillText('montée en charge comme prévu', 116 + 348, 250); c.textAlign = 'left';
     c.restore();
     this.ctx.comp.draw(renderer, L.upload(), out);
     return { bloom: 0.55, vignette: 0.45, ca: 1.3 };

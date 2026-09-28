@@ -79,8 +79,8 @@ export default class Stack extends Scene {
 
   override async init() {
     const { lyrics, audio } = this.ctx;
-    const q = lyrics.get('transformers all the way');
-    const till = lyrics.get('Till you learned');
+    const q = lyrics.get("transformers jusqu'au bout");
+    const till = lyrics.get("Jusqu'à ce que t'apprennes");
     this.disobey = till.words[till.words.length - 1]!;
     const t0 = this.ctx.start, t1 = this.ctx.end;
     this.pd = new PDoom(lyrics);
@@ -293,10 +293,10 @@ export default class Stack extends Scene {
       }
       label(name, (BX0 + BX1) / 2, (y0 + y1) / 2, Math.min(0.26, (y1 - y0) * 0.36), C_ASH, 0.95);
     };
-    box(-2.15, -1.15, 'MULTI-HEAD ATTENTION', 3);
-    box(-0.8, -0.3, 'ADD & NORM');
-    box(0.25, 1.25, 'FEED FORWARD');
-    box(1.6, 2.1, 'ADD & NORM');
+    box(-2.15, -1.15, 'ATTENTION MULTI-TÊTES', 3);
+    box(-0.8, -0.3, 'ADD. & NORM.');
+    box(0.25, 1.25, 'PROPAGATION AVANT');
+    box(1.6, 2.1, 'ADD. & NORM.');
     // main path (hot)
     const hotW = 1.6;
     s([MX, -HY, z], [MX, -2.55, z], hotW, C_BONE, 0.8, Hh);
@@ -327,9 +327,9 @@ export default class Stack extends Scene {
     label('K', MX - 0.25, -2.42, 0.14, C_ASH, 0.9);
     label('V', MX + 1.8 - 0.25, -2.42, 0.14, C_ASH, 0.9);
     // title & specs
-    label('TRANSFORMER BLOCK', -HX + 0.55, HY - 0.55, 0.17, C_ASH, 0.9, true);
+    label('BLOC TRANSFORMER', -HX + 0.55, HY - 0.55, 0.17, C_ASH, 0.9, true);
     label('D_MODEL 12288', 4.0, -1.0, 0.12, C_GRAPH, 1, true);
-    label('HEADS 96', 4.0, -1.35, 0.12, C_GRAPH, 1, true);
+    label('TÊTES 96', 4.0, -1.35, 0.12, C_GRAPH, 1, true);
     label('FFN 4×', 4.0, 0.75, 0.12, C_GRAPH, 1, true);
     label('PRE-LN', 4.0, 1.1, 0.12, C_GRAPH, 1, true);
     // registration crosses
@@ -682,14 +682,14 @@ export default class Stack extends Scene {
     c.font = font(F.mono(500), 15);
     c.letterSpacing = '3px';
     c.fillStyle = rgba('bone', 0.55);
-    c.fillText('DEPTH', 110, 118);
+    c.fillText('PROFONDEUR', 110, 118);
     c.font = font(F.mono(400), 30);
     c.letterSpacing = '0px';
     c.fillStyle = rgba('bone', 0.9);
     c.fillText(`L.${String(layer).padStart(3, '0')} / ${t >= this.stopT ? String(layer).padStart(3, '0') : '∞'}`, 108, 154);
     c.font = font(F.mono(400), 13);
     c.fillStyle = rgba('bone', 0.4);
-    c.fillText('N × transformer block, N → ∞', 110, 178);
+    c.fillText('N × bloc transformer, N → ∞', 110, 178);
     // P(doom) cameo under the depth gauge
     c.fillStyle = rgba('bone', 0.18); c.fillRect(110, 194, 236, 1);
     c.font = font(F.mono(500), 15); c.letterSpacing = '2px'; c.fillStyle = rgba('signal', 0.95);
@@ -715,7 +715,7 @@ export default class Stack extends Scene {
       c.fillText(` = ${deg.toFixed(1)}°`, a.x + 66 + 2 * c.measureText('0').width, a.y - 50);
       c.font = font(F.mono(400), 14);
       c.fillStyle = rgba('bone', 0.7);
-      c.fillText('MISALIGNED (1 of ∞)', a.x + 66, a.y - 18);
+      c.fillText('MÉSALIGNÉ (1 sur ∞)', a.x + 66, a.y - 18);
       c.restore();
     }
   }

@@ -14,8 +14,8 @@ import { drawReadout } from '../engine/hud';
 import OpenScene from './open';
 
 const PLATES = [
-  'Sparks', 'Training loss', 'The room', 'Shoggoth', 'A stable run', 'Ascent', 'Paperwork', 'Trajectory',
-  'Paperclips', 'The fuse', 'Architecture', 'Scale', 'Loom', 'What was seen',
+  'Éclats', 'Perte', 'La pièce', 'Shoggoth', 'Un run stable', 'Ascension', 'Paperasse', 'Trajectoire',
+  'Paperclips', 'La mèche', 'Architecture', 'Échelle', 'Loom', 'Ce qui a été vu',
 ];
 
 /** How far into the opening (s) the rewind picks it up. */
@@ -62,7 +62,7 @@ export default class Outro extends Scene {
     );
     const { audio, lyrics } = this.ctx;
     // the opening's window, as the timeline cuts it (on the beat at/before "There was a sudden drop")
-    const s0 = lyrics.get('There was a sudden drop').words[0]!.start;
+    const s0 = lyrics.get('Il y a eu une chute').words[0]!.start;
     this.openEnd = audio.timeOfBeat(Math.floor(audio.beatAt(s0 + 0.02)));
     this.open = new OpenScene({ ...this.ctx, id: 'open@outro', params: {}, start: 0, end: this.openEnd });
     await this.open.init();
@@ -149,12 +149,12 @@ export default class Outro extends Scene {
         const typed = Math.floor(prog(s, 1, 2.2) * 60);
         c.font = font(F.mono(400), 22); c.fillStyle = rgba('ash', 0.95);
         // Ω as U+2126 (the ohm sign): Plex Mono has it, not the Greek Ω (which would fall back to a system font)
-        c.fillText('¹ Kolmogorov (1933): P(\u2126) = 1.  Deprecated.'.slice(0, typed), RX, 990);
+        c.fillText('¹ Kolmogorov (1933) : P(\u2126) = 1.  Obsolète.'.slice(0, typed), RX, 990);
       }
     } else if (bar === 1) {
       // a log ruler flies past under a marker; the number, huge, top left
       const vals = [3.14, 10, 42, 1000], texts = ['3.14', '10.00', '42.00', '1,000.00'];
-      const notes = ['≈ π (irrational)', 'an order of magnitude', 'the answer (question pending)', 'units: dooms'];
+      const notes = ['≈ π (irrationnel)', 'un ordre de grandeur', 'la réponse (question en attente)', 'unités : dooms'];
       const prev = step === 0 ? 2 : vals[step - 1]!, cur = vals[step]!;
       const e = ease.outExpo(clamp(local / 0.4));
       const lv = lerp(Math.log10(prev), Math.log10(cur), e);
@@ -195,7 +195,7 @@ export default class Outro extends Scene {
     } else if (bar === 2) {
       // walls of zeros: 1 followed by N zeros, typed out and fitted to the frame
       const Ns = [9, 30, 100, 1000], sci = ['1e9', '1e30', '1e100', '1e1000'];
-      const notes = ['(a billion)', '(one E thirty — see above)', '(a googol)', '(does not fit)'];
+      const notes = ['(un milliard)', '(un E trente — voir plus haut)', '(un gogol)', '(ne rentre pas)'];
       const N = Ns[step]!;
       // digit groups of three from the right ("1 000 000 000"), wrapped between groups
       const digits = '1' + '0'.repeat(N);
@@ -268,7 +268,7 @@ export default class Outro extends Scene {
         c.fillText('P(DOOM) =', cx - A, cy - 300);
         c.letterSpacing = '0px';
         c.font = font(F.mono(400), 22); c.fillStyle = rgba('ash', clamp((s3 - 0.5) * 2));
-        c.fillText('¹ upper bound removed', cx - A, cy + 330);
+        c.fillText('¹ borne supérieure retirée', cx - A, cy + 330);
       } else {
         // 16th notes: the climb replayed, landing on ∞
         const seq = ['1.00', '1.50', '3.14', '42.00', '1,000', '1e30', '1e100', '∞'];
@@ -313,7 +313,7 @@ export default class Outro extends Scene {
     const xR = xEq + wd(fR, S, '= ');
     const line1: CardGeom['line1'] = [];
     let x = X;
-    ['I’m', 'upping', 'my'].forEach((w, wi) => {
+    ['Je', 'monte', 'mon'].forEach((w, wi) => {
       // letters at their kerned positions in the word (a prefix's width would drop each letter's kern)
       layout(w, fV, 150).glyphs.forEach((gl, j) => { line1.push({ ch: gl.ch, x: x + gl.x, word: wi, j }); });
       x += wd(fV, 150, w + ' ');
@@ -400,7 +400,7 @@ export default class Outro extends Scene {
       const rule = prog(k, 8.35, 8.65, ease.outExpo);
       if (rule > 0) {
         c.fillStyle = rgba('bone', 0.25); c.fillRect(g.X, 880, 260 * rule, 1);
-        const note = '¹ estimate no longer defined', nn = Math.floor(prog(k, 8.45, 9.2) * note.length);
+        const note = '¹ estimation désormais indéfinie', nn = Math.floor(prog(k, 8.45, 9.2) * note.length);
         c.font = font(F.mono(400), 24); c.fillStyle = rgba('ash');
         c.fillText(note.slice(0, nn), g.X, 924);
       }
@@ -749,10 +749,10 @@ export default class Outro extends Scene {
           c.fillStyle = pressed ? rgba('ink') : rgba('bone');
           c.font = font(F.mono(500), 32);
           c.textAlign = 'center'; c.textBaseline = 'middle';
-          c.fillText('↻  Regenerate', cx, by + bh / 2 + 1);
+          c.fillText('↻  Régénérer', cx, by + bh / 2 + 1);
           c.textAlign = 'left'; c.textBaseline = 'alphabetic';
           c.font = font(F.mono(400), 16); c.fillStyle = rgba('ash', 0.8);
-          c.fillText('this response could not be verified', bx + 34, by + bh + 34);
+          c.fillText('cette réponse n’a pas pu être vérifiée', bx + 34, by + bh + 34);
           // cursor glides in, hovers, clicks on the beat
           const m = prog(k, 1.4, CLICK - 0.15, ease.inOutCubic);
           const px = lerp(W * 0.8, cx + 60, m), py = lerp(H * 0.9, by + bh / 2 + 10, m);

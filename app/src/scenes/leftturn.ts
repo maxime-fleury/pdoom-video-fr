@@ -62,17 +62,19 @@ export default class LeftTurn extends Scene {
     const beatAfter = (t: number) => au.timeOfBeat(Math.ceil(au.beatAt(t) - 1e-6));
     const beatBefore = (t: number) => au.timeOfBeat(Math.floor(au.beatAt(t) + 1e-6));
     const downAfter = (t: number) => au.downbeats.find((d) => d >= t - 1e-6) ?? beatAfter(t);
-    T.l5 = ly.get('Sharp left');
-    T.l6 = ly.get('single CDR');
-    T.sharp = wordOf(T.l5, 'sharp').start;
-    T.left = wordOf(T.l5, 'left').start;
-    T.turn = wordOf(T.l5, 'turn').start;
-    T.and = wordOf(T.l5, 'and').start;
-    T.there = wordOf(T.l5, 'there').start;
-    const you = wordOf(T.l5, 'you');
+    T.l5 = ly.get('Virage brusque');
+    T.l6 = ly.get('un seul CDR');
+    // Repères calés sur les mots FRANÇAIS (l'ancien code cherchait « sharp / left / turn… »,
+    // qui ne raccrochaient plus rien : wordOf retombait sur le premier mot de la ligne).
+    T.sharp = wordOf(T.l5, 'virage').start;
+    T.left = wordOf(T.l5, 'gauche').start;
+    T.turn = wordOf(T.l5, 'brusque').start;
+    T.and = wordOf(T.l5, 'et').start;
+    T.there = wordOf(T.l5, 'te').start;
+    const you = wordOf(T.l5, 'voilà');
     T.you = you.start; T.youEnd = you.end;
-    T.are = wordOf(T.l5, 'are').start;
-    T.without = wordOf(T.l6, 'without').start;
+    T.are = wordOf(T.l5, 'voilà').start;
+    T.without = wordOf(T.l6, 'sans').start;
     const cdr = wordOf(T.l6, 'cdr');
     T.cdr = cdr.start;
     T.cdrSyl = cdr.syl && cdr.syl.length >= 3 ? cdr.syl.map((s) => s[0]) : [0, 1, 2].map((i) => cdr.start + i * 0.4);
@@ -344,7 +346,7 @@ export default class LeftTurn extends Scene {
       const a = prog(e, 0, 0.03) * (1 - prog(e, 0.5, 0.8));
       c.save(); c.translate(MAP.PX - 132, m.y - 70); c.rotate(-0.08);
       c.font = font(F.mono(600), 20); c.fillStyle = rgba('signal', a); c.textAlign = 'center';
-      c.fillText('PASSED', 0, 0);
+      c.fillText('FRANCHI', 0, 0);
       c.restore();
     };
     stamp(0, T.sharp);
@@ -429,8 +431,8 @@ export default class LeftTurn extends Scene {
       c.fillText(text, 0, size * 0.36);
       c.restore();
     };
-    stampWord(wYou, 'YOU', FACE.x, FACE.y - FACE.r * 0.5, 250);
-    stampWord(wAre, 'ARE', FACE.x, FACE.y + FACE.r * 0.72, 250);
+    stampWord(wYou, 'VOUS', FACE.x, FACE.y - FACE.r * 0.5, 250);
+    stampWord(wAre, 'ICI', FACE.x, FACE.y + FACE.r * 0.72, 250);
 
     // deadpan callout, filed on the snare
     const ca = prog(t, T.call - 0.01, T.call + 0.04);
@@ -447,9 +449,9 @@ export default class LeftTurn extends Scene {
       c.beginPath(); c.arc(ex, ey, 5 * px, 0, Math.PI * 2); c.fill();
       c.textAlign = 'right';
       c.font = font(F.mono(600), 68); c.fillStyle = rgba('bone', 1);
-      c.fillText('UNPLANNED OBJECT', lx, ly - 26);
+      c.fillText('OBJET NON PLANIFIÉ', lx, ly - 26);
       c.font = font(F.mono(400), 50); c.fillStyle = rgba('ash', 1);
-      c.fillText('not on roadmap', lx, ly + 66);
+      c.fillText('pas au planning', lx, ly + 66);
       c.restore();
     }
   }

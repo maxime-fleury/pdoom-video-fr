@@ -106,9 +106,9 @@ export default class OpenScene extends Scene {
     this.T0 = this.ctx.start; this.T1 = this.ctx.end;
     const b0 = Math.ceil(au.beatAt(this.T0 + 1e-3) - 1e-3);
     this.B = (i: number) => au.timeOfBeat(b0 + i);
-    this.L1 = ly.get('sparks of AGI');
-    this.L2 = ly.get('circuits make me');
-    this.L3 = ly.get('no surprise');
+    this.L1 = ly.get("éclats d'AGI");
+    this.L2 = ly.get('Tes circuits me rendent');
+    this.L3 = ly.get('sans surprise');
     const find = (l: Line, q: string) => {
       const n = norm(q);
       const x = l.words.find((y) => norm(y.w) === n);
@@ -116,10 +116,10 @@ export default class OpenScene extends Scene {
       return x;
     };
     const w = this.w;
-    w.I = find(this.L1, 'I'); w.see = find(this.L1, 'see'); w.sparks = find(this.L1, 'sparks'); w.of = find(this.L1, 'of');
-    w.AGI = find(this.L1, 'AGI'); w.in = find(this.L1, 'in'); w.your = find(this.L1, 'your'); w.eyes = find(this.L1, 'eyes');
-    w.Your = this.L2.words[0]!; w.circuits = find(this.L2, 'circuits'); w.make = find(this.L2, 'make'); w.me = find(this.L2, 'me'); w.nervous = find(this.L2, 'nervous');
-    w.thats = find(this.L3, "that's"); w.no = find(this.L3, 'no'); w.surprise = find(this.L3, 'surprise');
+    w.I = find(this.L1, 'Je'); w.see = find(this.L1, 'vois'); w.sparks = find(this.L1, 'éclats'); w.of = find(this.L1, 'des');
+    w.AGI = find(this.L1, "d'AGI"); w.in = find(this.L1, 'dans'); w.your = find(this.L1, 'tes'); w.eyes = find(this.L1, 'yeux');
+    w.Your = this.L2.words[0]!; w.circuits = find(this.L2, 'circuits'); w.make = find(this.L2, 'rendent'); w.me = find(this.L2, 'me'); w.nervous = find(this.L2, 'nerveux');
+    w.thats = find(this.L3, 'et'); w.no = find(this.L3, 'sans'); w.surprise = find(this.L3, 'surprise');
     const A = w.AGI!;
     this.agi = A.syl && A.syl.length === 3 ? A.syl : [0, 1, 2].map((i) => [lerp(A.start, A.end, i / 3), lerp(A.start, A.end, (i + 1) / 3)] as [number, number]);
     this.tCompass = this.B(1);
@@ -178,7 +178,7 @@ export default class OpenScene extends Scene {
     const colW = 5.9;
     // line 1: "AGI" is anchored right above the horn's tip; "I see sparks of" sits on top of it
     const emAGI = fit('AGI', colW, 2.45);
-    const emR1 = fit('I see sparks of', colW, 1.25);
+    const emR1 = fit('Je vois des éclats', colW, 1.25);
     const yAGI = 3.18;
     const yR1 = yAGI + CAP * emAGI + GAP + DESC * emR1;
     place([w.I!, w.see!, w.sparks!, w.of!], ['I', 'see', 'sparks', 'of'], COLX, yR1, emR1, 'l1');
@@ -186,13 +186,13 @@ export default class OpenScene extends Scene {
     place([w.in!, w.your!], ['in', 'your'], COLX, 2.28, 0.5, 'l1e', 0.25);
     place([w.eyes!], ['eyes'], COLX, 1.62, 0.5, 'l1e', 0.2);
     // line 2 under it
-    const r2 = stack([['Your circuits', 1.25], ['make me', 1.5], ['nervous,', 1.9]], 0.55, colW);
+    const r2 = stack([['Tes circuits', 1.25], ['me rendent', 1.5], ['nerveux,', 1.9]], 0.55, colW);
     place([w.Your!, w.circuits!], ['Your', 'circuits'], COLX, r2[0]!.y, r2[0]!.em, 'l2');
     place([w.make!, w.me!], ['make', 'me'], COLX, r2[1]!.y, r2[1]!.em, 'l2');
-    place([w.nervous!], ['nervous,'], COLX - 0.04, r2[2]!.y, r2[2]!.em, 'l2');
+    place([w.nervous!], ['nerveux,'], COLX - 0.04, r2[2]!.y, r2[2]!.em, 'l2');
     // line 3 on the left of the figure, with the surprisal underneath
-    const r3 = stack([['that’s no', 1.45], ['surprise', 1.45]], 2.75, 5.3);
-    place([w.thats!, w.no!], ['that’s', 'no'], this.eq.x, r3[0]!.y, r3[0]!.em, 'l3');
+    const r3 = stack([['et sans', 1.45], ['surprise', 1.45]], 2.75, 5.3);
+    place([w.thats!, w.no!], ['et', 'sans'], this.eq.x, r3[0]!.y, r3[0]!.em, 'l3');
     place([w.surprise!], ['surprise'], this.eq.x, r3[1]!.y, r3[1]!.em, 'l3');
     this.eq = pt(this.eq.x + 0.03, r3[1]!.y - DESC * r3[1]!.em - 0.42);
     this.row1 = { y: yR1, em: emR1 };
@@ -355,7 +355,7 @@ export default class OpenScene extends Scene {
     this.note('x', 14.55, 0.16, t0 + 0.4, { em: 0.2, col: 'ash', group: 'axes' });
     this.note('y', 0.14, 8.55, t0 + 0.4, { em: 0.2, col: 'ash', group: 'axes' });
     // the prompt, deadpan, typed while we pull back
-    this.note('% prompt: "Draw a unicorn in TikZ."', -3.98, 2.36, t0 + 0.12, { em: 0.155, col: 'bone', a: 0.85, dur: 0.42, group: 'prompt', maxPx: 60 });
+    this.note('% invite : « Trace une licorne en TikZ. »', -3.98, 2.36, t0 + 0.12, { em: 0.155, col: 'bone', a: 0.85, dur: 0.42, group: 'prompt', maxPx: 60 });
     this.note('\\begin{tikzpicture}', -3.98, 2.14, t0 + 0.5, { em: 0.13, col: 'ash', dur: 0.12, group: 'prompt', maxPx: 60 });
     // ignition ring
     S(arc(0, 0, 0.35, 0, TAU, 96), t0, t0 + 0.02, 'ring', { alpha: 1, width: 1.2, group: 'ring' });
@@ -402,17 +402,17 @@ export default class OpenScene extends Scene {
     S(line(pt(gb.x0 - 0.5, gb.y0 + 0.53 * this.row1.em), pt(gx1, gb.y0 + 0.53 * this.row1.em)), tI + 0.08, tI + 0.36, 'cons', { ez: ez.outCubic, alpha: 0.35, dash: 4, group: 'type' });
     S(line(pt(gb.x0 - 0.5, gb.y0 - DESC_EM * this.row1.em), pt(gx1, gb.y0 - DESC_EM * this.row1.em)), tI + 0.1, tI + 0.38, 'cons', { ez: ez.outCubic, alpha: 0.35, dash: 4, group: 'type' });
     this.note('baseline', gx1 + 0.08, gb.y0 - 0.03, tI + 0.3, { em: 0.1, col: 'ash', group: 'typel' });
-    this.note(`cap height ${(gb.y1 - gb.y0).toFixed(2)}`, gx1 + 0.08, gb.y1 - 0.03, tI + 0.33, { em: 0.1, col: 'ash', group: 'typel' });
+    this.note(`hauteur de capitale ${(gb.y1 - gb.y0).toFixed(2)}`, gx1 + 0.08, gb.y1 - 0.03, tI + 0.33, { em: 0.1, col: 'ash', group: 'typel' });
     this.note('x-height', gx1 + 0.08, gb.y0 + 0.53 * this.row1.em - 0.03, tI + 0.36, { em: 0.1, col: 'ash', group: 'typel' });
     this.note('descender', gx1 + 0.08, gb.y0 - DESC_EM * this.row1.em - 0.03, tI + 0.38, { em: 0.1, col: 'ash', group: 'typel' });
     // glyph metrics: the em box, side bearings, the advance
     const gI = iW.lay.glyphs[0]!, kI = iW.em / 100;
     const ex0 = iW.x + gI.x * kI, ex1 = iW.x + (gI.x + gI.w) * kI, ey0 = iW.y - 0.21 * iW.em, ey1 = iW.y + 0.79 * iW.em;
     S(poly(pt(ex0, ey1), pt(ex1, ey1), pt(ex1, ey0), pt(ex0, ey0)), tI + 0.3, tI + 0.5, 'cons', { alpha: 0.55, dash: 5, group: 'type' });
-    this.dimension(pt(ex0, ey0 - 0.14), pt(ex1, ey0 - 0.14), `adv ${(ex1 - ex0).toFixed(2)}`, tI + 0.45, 'typel', 0.075);
+    this.dimension(pt(ex0, ey0 - 0.14), pt(ex1, ey0 - 0.14), `avance ${(ex1 - ex0).toFixed(2)}`, tI + 0.45, 'typel', 0.075);
     this.note('LSB', (ex0 + gb.x0) / 2, ey1 + 0.04, tI + 0.5, { em: 0.065, col: 'ash', align: 'center', group: 'typel' });
     this.note('RSB', (ex1 + gb.x1) / 2, ey1 + 0.04, tI + 0.52, { em: 0.065, col: 'ash', align: 'center', group: 'typel' });
-    this.note('U+0049  LATIN CAPITAL LETTER I', ex0, ey1 + 0.62, tI + 0.36, { em: 0.09, col: 'bone', a: 0.75, group: 'typel', dur: 0.25 });
+    this.note('U+0049  LETTRE MAJUSCULE LATINE I', ex0, ey1 + 0.62, tI + 0.36, { em: 0.09, col: 'bone', a: 0.75, group: 'typel', dur: 0.25 });
     this.note('Archivo 700 · wdth 100', ex0, ey1 + 0.47, tI + 0.42, { em: 0.075, col: 'ash', group: 'typel', dur: 0.2 });
     this.note(`\\fill (${gb.x0.toFixed(2)},${gb.y0.toFixed(2)}) rectangle ++(${(gb.x1 - gb.x0).toFixed(2)},${(gb.y1 - gb.y0).toFixed(2)}); % I`, gb.x0 - 0.02, gb.y0 - 0.3, tI + 0.22, { em: 0.13, col: 'ash', group: 'lyricI', dur: 0.3 });
 
@@ -456,7 +456,7 @@ export default class OpenScene extends Scene {
       const f = k / 8, g = Math.min(1, f + 0.08);
       S([pt(lerp(hb0.x, hap.x, f), lerp(hb0.y, hap.y, f)), pt(lerp(hb1.x, hap.x, g), lerp(hb1.y, hap.y, g))], sg[0] + k * 0.018, sg[0] + k * 0.018 + 0.05, 'hatch', { width: 1.1, group: 'u1h' });
     }
-    this.note('spiral, 7 turns', 2.2, 2.93, si[0], { em: 0.12, col: 'ash', group: 'code', align: 'right' });
+    this.note('spirale, 7 tours', 2.2, 2.93, si[0], { em: 0.12, col: 'ash', group: 'code', align: 'right' });
 
     // ---- the tail: the pen crosses the sheet for it
     const tT = B(6);
@@ -464,7 +464,7 @@ export default class OpenScene extends Scene {
 
     // ---- the TikZ listing (top-left of the sheet): each line lights up as its primitive is plotted
     const lst: [string, number][] = [
-      ['% prompt: "Draw a unicorn in TikZ."', B(0) + 0.12],
+      ['% invite : « Trace une licorne en TikZ. »', B(0) + 0.12],
       ['\\begin{tikzpicture}', B(0) + 0.5],
       ['\\draw (0,0) ellipse (2 and 1);     % body', tB],
       ['\\foreach \\x in {-1.5,-1,0.85,1.35}', tL],
@@ -485,11 +485,11 @@ export default class OpenScene extends Scene {
     for (let r = 1; r < 3; r++) S(line(pt(tbx, tby - r * rh), pt(tbx + tbw, tby - r * rh)), tt + 0.1, tt + 0.25, 'cons', { alpha: 0.5, group: 'title' });
     S(line(pt(tbx + 2.3, tby - rh), pt(tbx + 2.3, tby - 3 * rh)), tt + 0.15, tt + 0.28, 'cons', { alpha: 0.5, group: 'title' });
     const cell = (txt: string, x: number, r: number, d: number, col = 'ash') => this.note(txt, tbx + x, tby - r * rh - 0.23, tt + d, { em: 0.13, col, group: 'title', dur: 0.15 });
-    cell('TITLE   unicorn (exp. 1)', 0.1, 0, 0.2, 'bone');
-    cell('DRAWN   the model', 0.1, 1, 0.25);
-    cell('CHECKED —', 2.4, 1, 0.3);
-    cell('SCALE   1:1', 0.1, 2, 0.35);
-    cell('SHEET   1 of 1', 2.4, 2, 0.4);
+    cell('TITRE   licorne (exp. 1)', 0.1, 0, 0.2, 'bone');
+    cell('DESSINÉ   le modèle', 0.1, 1, 0.25);
+    cell('VÉRIFIÉ —', 2.4, 1, 0.3);
+    cell('ÉCHELLE   1:1', 0.1, 2, 0.35);
+    cell('FEUILLE   1 sur 1', 2.4, 2, 0.4);
 
     // ---- the eye: the pen hovers through "in your", dots it on "eyes"
     const E = this.eye;

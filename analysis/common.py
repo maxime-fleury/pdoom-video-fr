@@ -16,8 +16,10 @@ for var, sub in [("TORCH_HOME", "torch"), ("HF_HOME", "hf"), ("HF_HUB_CACHE", "h
     os.environ.setdefault(var, str(CACHE / sub))
     (CACHE / sub).mkdir(parents=True, exist_ok=True)
 
-AUDIO = PROJECT / "audio" / "pdoom.mp3"
-STEMS = ROOT / "stems" / "htdemucs_ft" / "pdoom"
+# Version française : le clip est rendu sur l'audio FR (audio/pdoom.mp3). L'audio anglais
+# d'origine est conservé dans audio/pdoom.en.mp3, à titre de référence seulement.
+AUDIO = PROJECT / "audio" / os.environ.get("PDOOM_AUDIO", "pdoom.mp3")
+STEMS = ROOT / "stems" / "htdemucs_ft" / os.environ.get("PDOOM_TRACK", "pdoom")
 LYRICS_SRC = PROJECT / "lyrics" / "lyrics.src.js"
 DATA = PROJECT / "data"
 QA = ROOT / "qa"
@@ -40,7 +42,9 @@ def load_lyrics_src():
 # (ffmpeg / libsndfile / browsers) is our time reference, so stems are shifted
 # earlier by 1015 samples @ 44.1 kHz (measured by cross-correlation, constant
 # over the whole song).
-STEM_OFFSET_SAMPLES = 1015
+# Version FR : mesuré à 0 échantillon par corrélation croisée (fr_probe.py) — le décodage
+# ffmpeg de ce mp3-là est déjà aligné sur les stems, contrairement au mp3 d'origine.
+STEM_OFFSET_SAMPLES = 0
 STEM_OFFSET_SEC = STEM_OFFSET_SAMPLES / 44100
 
 

@@ -250,15 +250,15 @@ export default class Bureau extends Scene {
 
     this.ink.texture.colorSpace = THREE.NoColorSpace;
     const find = (l: Line, q: string, from = 0) => l.words.slice(from).find((w) => norm(w.w).startsWith(norm(q))) ?? l.words[Math.min(from, l.words.length - 1)]!;
-    this.L1 = lyrics.get('safe enough');
-    this.L2 = lyrics.get('Forward MLP');
+    this.L1 = lyrics.get('assez sûr');
+    this.L2 = lyrics.get('MLP en avant');
     this.L3 = lyrics.get('Neumann');
-    this.wEnough = find(this.L1, 'enough');
-    this.wWe = find(this.L1, 'we', 4);
-    this.wReck = find(this.L1, 'reckon');
-    this.wFwd = find(this.L2, 'forward');
+    this.wEnough = find(this.L1, 'sûr');
+    this.wWe = find(this.L1, 'on', 3);
+    this.wReck = find(this.L1, 'pensait');
+    this.wFwd = find(this.L2, 'avant');
     this.wMLP = find(this.L2, 'mlp');
-    this.wBack = find(this.L2, 'backward');
+    this.wBack = find(this.L2, 'arrière');
     this.wRep = find(this.L2, 'repeat');
     this.wNow = this.L3.words[0]!;
     this.wVon = find(this.L3, 'von');
@@ -573,17 +573,17 @@ export default class Bureau extends Scene {
     c.globalCompositeOperation = 'difference';
     c.fillStyle = PRINT(1);
     c.font = font(F.archivo(125, 900), 58);
-    c.fillText('FORM 7-B', x0 + 26, y0 + 68);
+    c.fillText('FORMULAIRE 7-B', x0 + 26, y0 + 68);
     c.font = font(F.mono(600), 19);
     c.letterSpacing = '4px';
-    c.fillText('SAFETY EVALUATION OF A FRONTIER SYSTEM', x0 + 470, y0 + 42);
+    c.fillText('ÉVALUATION DE SÛRETÉ D\u2019UN SYSTÈME DE FRONTIÈRE', x0 + 470, y0 + 42);
     c.font = font(F.mono(400), 15);
     c.letterSpacing = '3px';
-    c.fillText('ABRIDGED EDITION  ·  PLEASE TYPE OR PRINT CLEARLY', x0 + 470, y0 + 70);
+    c.fillText('ÉDITION ABRÉGÉE  ·  VEUILLEZ DACTYLOGRAPHIER OU ÉCRIRE LISIBLEMENT', x0 + 470, y0 + 70);
     c.globalCompositeOperation = 'lighter';
 
     // meta row
-    const meta = [['ISSUED BY', 'DEPT. OF REASONABLE ASSURANCES'], ['REF.', '7B-0042/∞'], ['REVIEW TIME', '11 MIN'], ['PAGE', '1 OF 1']];
+    const meta = [['ÉMIS PAR', 'DÉPT. DES ASSURANCES RAISONNABLES'], ['RÉF.', '7B-0042/∞'], ['DURÉE D\u2019EXAMEN', '11 MIN'], ['PAGE', '1 SUR 1']];
     let mx = x0;
     const mw = [520, 280, 320, 280];
     c.letterSpacing = '2px';
@@ -604,14 +604,14 @@ export default class Bureau extends Scene {
       c.letterSpacing = '0px';
     };
     // 1. FINDINGS (lyric typed here)
-    label('1.', 'FINDINGS', A.y - 210);
+    label('1.', 'CONSTATS', A.y - 210);
     c.fillStyle = PRINT(0.3);
     for (let i = 0; i < 2; i++) c.fillRect(x0 + 160, A.y - 105 + i * 64, x1 - x0 - 180, 1.2);
     c.fillStyle = PRINT(0.5); c.font = font(F.mono(400), 13);
-    c.fillText('(describe observed behaviour; attach additional sheets if the system asks you to)', x0 + 160, A.y - 205);
+    c.fillText('(décrire le comportement observé ; joindre des feuilles supplémentaires si le système le demande)', x0 + 160, A.y - 205);
     // 2. RISK LEVEL
-    label('2.', 'RISK LEVEL', A.y - 10);
-    const opts = ['LOW', 'MODERATE', 'HIGH', 'SAFE ENOUGH'];
+    label('2.', 'NIVEAU DE RISQUE', A.y - 10);
+    const opts = ['FAIBLE', 'MODÉRÉ', 'ÉLEVÉ', 'ASSEZ SÛR'];
     let ox = x0 + 290;
     c.font = font(F.mono(500), 21);
     c.letterSpacing = '2px';
@@ -635,17 +635,17 @@ export default class Bureau extends Scene {
     c.fillStyle = PRINT(0.3);
     c.fillRect(x0 + 160, A.y + 155, 760, 1.2);
     // 4. signature
-    label('4.', 'SIGNATURE OF EVALUATOR(S)', A.y + 250);
+    label('4.', 'SIGNATURE DE L\u2019ÉVALUATEUR(S)', A.y + 250);
     c.fillStyle = PRINT(0.6);
     c.fillRect(x0 + 160, A.y + 360, 520, 1.2);
     c.font = font(F.mono(400), 12); c.letterSpacing = '2px';
-    c.fillText('SIGN HERE', x0 + 160, A.y + 380);
+    c.fillText('SIGNER ICI', x0 + 160, A.y + 380);
     c.letterSpacing = '0px';
     // footnote
     c.fillStyle = PRINT(0.8); c.fillRect(x0, A.y + 415, x1 - x0, 1);
     c.fillStyle = PRINT(0.75);
     c.font = font(F.mono(400), 14);
-    c.fillText('* “Safe enough” is defined in Form 7-C, which has not been drafted. Do not detach.', x0 + 10, A.y + 445);
+    c.fillText('* « Assez sûr » est défini par le formulaire 7-C, qui n\u2019a jamais été rédigé. Ne pas détacher.', x0 + 10, A.y + 445);
     // 5. the P(doom) field, right under where the stamp lands
     {
       const fx = A.x + 230, fy = A.y + 452;
@@ -655,7 +655,7 @@ export default class Bureau extends Scene {
       c.fillText('EST. P(DOOM)', fx + 34, fy);
       c.fillStyle = PRINT(0.55);
       c.font = font(F.mono(400), 12); c.letterSpacing = '2px';
-      c.fillText('(ROUND DOWN)', fx + 34, fy + 22);
+      c.fillText('(ARRONDIR VERS LE BAS)', fx + 34, fy + 22);
       c.letterSpacing = '0px';
       c.fillStyle = PRINT(0.55);
       c.fillRect(A.x + 470, fy + 12, x1 - 20 - (A.x + 470), 1.2);
@@ -721,13 +721,13 @@ export default class Bureau extends Scene {
     c.fillStyle = ORANGE(1);
     c.textAlign = 'center';
     const fam = F.archivo(75, 900);
-    const size = Math.min(112, (100 * (hw * 2 - 70)) / measure('SAFE ENOUGH', fam, 100));
+    const size = Math.min(112, (100 * (hw * 2 - 70)) / measure('ASSEZ SÛR', fam, 100));
     c.font = font(fam, size);
-    c.fillText('SAFE ENOUGH', 0, size * 0.36);
+    c.fillText('ASSEZ SÛR', 0, size * 0.36);
     c.font = font(F.mono(700), 16);
     c.letterSpacing = '6px';
-    c.fillText('EVALUATED · WE RECKON', 0, -hh + 46);
-    c.fillText('DEPT. OF REASONABLE ASSURANCES', 0, hh - 30);
+    c.fillText('ÉVALUÉ · À NOTRE AVIS', 0, -hh + 46);
+    c.fillText('DÉPT. DES ASSURANCES RAISONNABLES', 0, hh - 30);
     c.letterSpacing = '0px';
     c.restore();
   }
@@ -742,9 +742,9 @@ export default class Bureau extends Scene {
     c.beginPath(); c.roundRect(-hw, -hh, hw * 2, hh * 2, 20); c.stroke();
     c.fillStyle = PRINT(1); c.textAlign = 'center';
     c.font = font(F.archivo(125, 900), 62);
-    c.fillText('FILED', 0, 12);
+    c.fillText('CLASSÉ', 0, 12);
     c.font = font(F.mono(600), 13); c.letterSpacing = '4px';
-    c.fillText('NO FURTHER ACTION', 0, hh - 14);
+    c.fillText('AUCUNE SUITE DONNÉE', 0, hh - 14);
     c.letterSpacing = '0px';
     c.restore();
   }
@@ -755,7 +755,7 @@ export default class Bureau extends Scene {
     for (let x = -1400; x < 1400; x += 18) c.fillRect(x, y, 9, 1.4);
     c.font = font(F.mono(500), 13); c.letterSpacing = '4px';
     c.fillStyle = PRINT(0.6);
-    c.fillText('   DETACH HERE — RETAIN LOWER PORTION FOR YOUR RECORDS', -440, y - 12);
+    c.fillText('   DÉTACHER ICI — CONSERVEZ LA PARTIE BASSE POUR VOS ARCHIVES', -440, y - 12);
     c.letterSpacing = '0px';
     // the scissors (no font here has ✂), drawn in the first cell: two finger rings, crossed blades
     const sx = -440, sy = y - 16.5;
@@ -789,10 +789,10 @@ export default class Bureau extends Scene {
     // headers
     c.fillStyle = PRINT(1);
     c.font = font(F.mono(700), 17); c.letterSpacing = '4px';
-    c.fillText('ANNEX B — TRAINING PROCEDURE', -880, -540);
+    c.fillText('ANNEXE B — PROCÉDURE D\u2019ENTRAÎNEMENT', -880, -540);
     c.font = font(F.mono(400), 13); c.letterSpacing = '2px';
     c.fillStyle = PRINT(0.6);
-    c.fillText('SCHEMATIC · NOT TO SCALE · DO NOT OPERATE UNSUPERVISED', -880, -516);
+    c.fillText('SCHÉMA · PAS À L\u2019ÉCHELLE · NE PAS FAIRE FONCTIONNER SANS SURVEILLANCE', -880, -516);
     c.letterSpacing = '0px';
     c.fillStyle = PRINT(0.9); c.fillRect(-880, -500, 1760, 1.5);
 
@@ -850,7 +850,7 @@ export default class Bureau extends Scene {
         }
       });
       c.fillStyle = PRINT(0.8); c.font = font(F.mono(500), 14); c.letterSpacing = '3px'; c.textAlign = 'center';
-      c.fillText(['INPUT x', 'HIDDEN h₁', 'HIDDEN h₂', 'OUTPUT ŷ'][k]!, l.x, 262);
+      c.fillText(['ENTRÉE x', 'CACHÉE h₁', 'CACHÉE h₂', 'SORTIE ŷ'][k]!, l.x, 262);
       c.textAlign = 'left'; c.letterSpacing = '0px';
     });
     c.fillStyle = PRINT(0.75); c.font = font(F.serif(400, true), 32); c.textAlign = 'center';
@@ -864,9 +864,9 @@ export default class Bureau extends Scene {
 
     c.font = font(F.mono(500), 14); c.letterSpacing = '3px';
     c.fillStyle = PRINT(0.75);
-    c.fillText('FORWARD PASS  →', -470, -226);
+    c.fillText('PASSE AVANT  →', -470, -226);
     c.textAlign = 'right';
-    c.fillText('←  BACKWARD PASS  (∂L/∂w)', 860, -160);
+    c.fillText('←  PASSE ARRIÈRE  (∂L/∂w)', 860, -160);
     c.textAlign = 'left'; c.letterSpacing = '0px';
 
     // epoch counter
@@ -875,9 +875,9 @@ export default class Bureau extends Scene {
     const loss = big ? 0.0001 : 0.693 * Math.pow(0.9, epoch - 41);
     c.fillStyle = PRINT(0.95); c.font = font(F.mono(500), 18); c.letterSpacing = '2px';
     c.textAlign = 'right';
-    c.fillText(`EPOCH ${big ? '1,000,000' : String(epoch).padStart(6, '0')}`, 860, -236);
+    c.fillText(`ÉPOQUE ${big ? '1 000 000' : String(epoch).padStart(6, '0')}`, 860, -236);
     c.fillStyle = PRINT(0.6);
-    c.fillText(`LOSS ${loss.toFixed(4)}`, 860, -210);
+    c.fillText(`PERTE ${loss.toFixed(4)}`, 860, -210);
     c.textAlign = 'left'; c.letterSpacing = '0px';
 
     this.drawAnnexLyric(c, tReal, loop);
@@ -892,7 +892,7 @@ export default class Bureau extends Scene {
     c.textBaseline = 'alphabetic';
     c.font = font(fam, size);
     // "Forward" over the input layer, printed L->R within the word
-    const fw = layout('Forward', fam, size);
+    const fw = layout('avant', fam, size);
     const fx0 = Ls[0]!.x - fw.width / 2;
     const per = Math.min(0.06, (this.wFwd.end - this.wFwd.start) / fw.glyphs.length);
     for (const g of fw.glyphs) if (t >= this.wFwd.start + g.i * per) { c.fillStyle = PRINT(1); c.fillText(g.ch, fx0 + g.x, yTop); }
@@ -944,11 +944,11 @@ export default class Bureau extends Scene {
       c.translate(rx + 200, 372);
       c.scale(1 + 0.14 * pop, 1 + 0.14 * pop);
       c.fillStyle = PRINT(1);
-      c.fillText('repeat', -200, 0);
+      c.fillText('répéter', -200, 0);
       c.restore();
       if (loop >= 0 && loop < 3) {
         c.fillStyle = ORANGE(1); c.font = font(F.mono(700), 24); c.letterSpacing = '3px';
-        c.fillText(`×${loop + 1}`, rx + measure('repeat', fam, 116) + 24, 372);
+        c.fillText(`×${loop + 1}`, rx + measure('répéter', fam, 116) + 24, 372);
         c.letterSpacing = '0px';
       }
     }
@@ -961,7 +961,7 @@ export default class Bureau extends Scene {
     c.translate(C.x, C.y);
     c.textBaseline = 'alphabetic';
     c.fillStyle = PRINT(0.7); c.font = font(F.mono(500), 16); c.letterSpacing = '4px';
-    c.fillText('APPENDIX C — LEGACY ARCHITECTURES (FOR REFERENCE ONLY)', -820, -482);
+    c.fillText('ANNEXE C — ARCHITECTURES HÉRITÉES (RÉFÉRENCE UNIQUEMENT)', -820, -482);
     c.letterSpacing = '0px';
     c.fillStyle = PRINT(0.9); c.fillRect(-820, -467, 1640, 1.5);
     // heading: the lyric, printed word by word
@@ -1062,31 +1062,31 @@ export default class Bureau extends Scene {
     shadowHatch(cx, cy, cw, ch, 15);
     c.strokeStyle = PRINT(1); c.lineWidth = 3; c.strokeRect(cx, cy, cw, ch);
     c.fillStyle = PRINT(1); c.font = font(F.mono(700), 18); c.letterSpacing = '4px';
-    c.fillText('CENTRAL PROCESSING UNIT', cx + 20, cy + 34);
+    c.fillText('UNITÉ CENTRALE DE TRAITEMENT', cx + 20, cy + 34);
     c.letterSpacing = '0px';
-    box(cx + 40, cy + 70, 270, 100, 'CONTROL UNIT', 'decode', hot(1));
-    box(cx + 350, cy + 70, 270, 100, 'ALU', 'arithmetic / logic', hot(2));
-    box(cx + 40, cy + 200, 580, 90, 'REGISTERS', 'PC · IR · ACC · MAR · MDR', hot(3));
+    box(cx + 40, cy + 70, 270, 100, 'UNITÉ DE CONTRÔLE', 'decode', hot(1));
+    box(cx + 350, cy + 70, 270, 100, 'ALU', 'arithmétique / logique', hot(2));
+    box(cx + 40, cy + 200, 580, 90, 'REGISTRES', 'PC · IR · ACC · MAR · MDR', hot(3));
     shadowHatch(-330, 225, 660, 115);
-    box(-330, 225, 660, 115, 'MEMORY UNIT', 'instructions + data, one bus', hot(0));
+    box(-330, 225, 660, 115, 'UNITÉ MÉMOIRE', 'instructions + données, un seul bus', hot(0));
     shadowHatch(-790, -135, 260, 150);
-    box(-790, -135, 260, 150, 'INPUT', 'device');
+    box(-790, -135, 260, 150, 'ENTRÉE', 'device');
     shadowHatch(530, -135, 260, 150);
-    box(530, -135, 260, 150, 'OUTPUT', 'device');
+    box(530, -135, 260, 150, 'SORTIE', 'device');
     arrow(-530, -60, cx - 4, -60);
     arrow(cx + cw + 4, -60, 526, -60);
     arrow(-60, cy + ch + 4, -60, 221, true);
     arrow(60, cy + ch + 4, 60, 221, true);
     c.fillStyle = PRINT(0.8); c.font = font(F.serif(400, true), 30);
-    c.fillText('the bottleneck', 100, 180);
+    c.fillText('le goulot', 100, 180);
     // the instruction token shuttling over the bus, one trip per beat
     const u = bt - Math.floor(bt);
     const up = Math.floor(bt) % 2 === 0;
     const ty = up ? lerp(215, 118, ease.inOutCubic(u)) : lerp(118, 215, ease.inOutCubic(u));
     c.fillStyle = PRINT(1); c.fillRect(up ? -70 : 50, ty - 8, 20, 16);
     c.fillStyle = PRINT(0.85); c.font = font(F.serif(400, true), 30);
-    c.fillText('Fig. C.1 — The stored-program computer (1945).', 372, 262);
-    c.fillText('One memory, one bus, one thing at a time.', 372, 298);
+    c.fillText('Fig. C.1 — L\u2019ordinateur à programme enregistré (1945).', 372, 262);
+    c.fillText('Une mémoire, un bus, une chose à la fois.', 372, 298);
   }
 
   override dispose() {

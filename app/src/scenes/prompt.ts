@@ -358,8 +358,8 @@ export default class Prompt extends Scene {
     c.font = font(F.mono(500), 13);
     c.letterSpacing = '3px';
     c.fillStyle = rgba('bone', 0.6);
-    c.fillText('PROMPT', fx0, fy1 + 30);
-    const pw = measure('PROMPT', F.mono(500), 13, 3) + 14;
+    c.fillText('INVITE', fx0, fy1 + 30);
+    const pw = measure('INVITE', F.mono(500), 13, 3) + 14;
     c.fillStyle = rgba('signal', 0.9);
     c.fillText(META[v].no, fx0 + pw, fy1 + 30);
     c.letterSpacing = '0px';
@@ -379,11 +379,11 @@ export default class Prompt extends Scene {
     c.letterSpacing = '3px';
     c.font = font(F.mono(500), 13);
     c.fillStyle = rgba('bone', 0.6);
-    c.fillText(`CONTEXT ${String(nTok).padStart(2, '0')} / 8192`, fx1, fy1 + 30);
+    c.fillText(`CONTEXTE ${String(nTok).padStart(2, '0')} / 8192`, fx1, fy1 + 30);
     c.letterSpacing = '0px';
     c.font = font(F.mono(400), 13);
     c.fillStyle = rgba('ash', 0.75);
-    const sendTxt = ' send  (irreversible)';
+    const sendTxt = ' envoyer  (irréversible)';
     c.fillText(sendTxt, fx1, fy1 + 52);
     c.textAlign = 'left';
     // ⏎ (not in Plex Mono): the keycap's return arrow, drawn small in the cell before "send"
@@ -543,9 +543,9 @@ export default class Prompt extends Scene {
       c.textBaseline = 'alphabetic';
       c.font = font(F.mono(400), 11);
       c.fillStyle = rgba('ash', 0.85);
-      c.fillText('p( next | context )', 10, -hgt + 14);
+      c.fillText('p( suivant | contexte )', 10, -hgt + 14);
       c.textAlign = 'right';
-      c.fillText(picked ? 'sampled' : 'computing…', pw - 8, -hgt + 14);
+      c.fillText(picked ? 'échantillonné' : 'calcul…', pw - 8, -hgt + 14);
       c.textAlign = 'left';
       const pmax = rows[0]![1];
       rows.forEach(([txt, p0], i) => {
@@ -623,7 +623,7 @@ export default class Prompt extends Scene {
     c.font = font(F.mono(500), 13);
     c.letterSpacing = '3px';
     c.fillStyle = rgba('signal', 0.9);
-    c.fillText('REPLY', rx - 96 + 8, ry);
+    c.fillText('RÉPONSE', rx - 96 + 8, ry);
     c.letterSpacing = '0px';
     c.font = font(F.mono(400), 30);
     if (t < tStream) {

@@ -13,7 +13,7 @@ export const GLSL_COMMON = /* glsl */ `
 // Output scale: physical px per logical (1920x1080) px. gl_FragCoord, fwidth and dFdx are in
 // physical px; FRAG_PX is the fragment's position in logical px (use it for anything that is
 // meant to be N logical px: grain/dither cells, hatch spacing, pixel-snapped patterns).
-const float PX_SCALE = ${SCALE.toFixed(1)};
+const float PX_SCALE = ${SCALE.toFixed(4)};
 #define FRAG_PX (gl_FragCoord.xy / PX_SCALE)
 const vec3 C_INK = ${v3(LIN.ink)};
 const vec3 C_INK2 = ${v3(LIN.ink2)};

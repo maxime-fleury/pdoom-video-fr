@@ -175,9 +175,9 @@ export default class Room extends Scene {
   override async init() {
     const { lyrics: ly, audio: au } = this.ctx;
     this.pdoom = new PDoom(ly);
-    this.L1 = ly.get("the future goes");
+    this.L1 = ly.get('le futur fait');
     this.L2 = ly.get('Chinese room');
-    this.L3 = ly.get('bag of shrooms');
+    this.L3 = ly.get('sac de champis');
     this.tP = this.ctx.start;
     this.tEnd = this.ctx.end;
     // the explosion starts on "'cause"; if the plate opens earlier (the end of the hook's
@@ -575,7 +575,7 @@ export default class Room extends Scene {
     c.font = font(F.mono(400), 14);
     c.letterSpacing = '2px';
     c.fillStyle = rgba('ash', 0.8 * (1 - out));
-    c.fillText('GROWTH, AS ADVERTISED', x, 82);
+    c.fillText('CROISSANCE, COMME ANNONCÉ', x, 82);
     c.restore();
   }
 
@@ -1260,9 +1260,9 @@ export default class Room extends Scene {
         }
       } });
     };
-    label(0, 2.1, 'OUT  ', F.mono(500), 0.075, rgba('bone', 0.65), true);
-    label(2.0, 2.24, 'EXIT', F.mono(500), 0.075, rgba('bone', 0.65));
-    label(2.0, 2.155, '(DECORATIVE)', F.mono(500), 0.06, rgba('signal', 0.85));
+    label(0, 2.1, 'SORTIE  ', F.mono(500), 0.075, rgba('bone', 0.65), true);
+    label(2.0, 2.24, 'ISSUE', F.mono(500), 0.075, rgba('bone', 0.65));
+    label(2.0, 2.155, '(DÉCORATIF)', F.mono(500), 0.06, rgba('signal', 0.85));
     // cards
     for (const cd of this.cards) {
       const pose = this.cardPose(cd, t);
@@ -1328,11 +1328,11 @@ export default class Room extends Scene {
     c.fillText('我不懂', 0, -8);
     c.font = font(F.mono(400), 7);
     c.fillStyle = rgba('ink', 0.85);
-    c.fillText('(i don’t understand)', 0, 10);
+    c.fillText('(je ne comprends pas)', 0, 10);
     c.font = font(F.mono(400), 5);
     c.fillStyle = rgba('ink', 0.5);
-    c.fillText('RULE 4.2.1 · OUTPUT OK', 0, 40);
-    c.fillText(`P(DOOM) ${formatPDoom(this.pdoom.value(t))} · ALSO ???`, 0, 48);
+    c.fillText('RÈGLE 4.2.1 · SORTIE OK', 0, 40);
+    c.fillText(`P(DOOM) ${formatPDoom(this.pdoom.value(t))} · ÉGALEMENT ???`, 0, 48);
     c.textAlign = 'left';
     c.globalAlpha = 1;
   }
@@ -1368,7 +1368,7 @@ export default class Room extends Scene {
       c.strokeStyle = rgba('ash', 0.22);
       c.beginPath(); c.moveTo(ax, ay); c.lineTo(bx, by); c.stroke();
     }
-    const foot = sideA ? 'NO UNDERSTANDING ON THE PREMISES *' : '* CONTENTS NOT COVERED BY THE RULEBOOK';
+    const foot = sideA ? 'AUCUNE COMPRÉHENSION SUR PLACE *' : '* CONTENU NON COUVERT PAR LE RÈGLEMENT';
     {
       c.font = font(F.mono(400), 20);
       const wpx = c.measureText(foot).width;
@@ -1444,10 +1444,10 @@ export default class Room extends Scene {
     c.beginPath(); c.moveTo(bx, by); c.lineTo(bx + 60, by - 40); c.lineTo(bx + 240, by - 40); c.stroke();
     c.font = font(F.mono(500), 13);
     c.fillStyle = rgba('bone', 0.9);
-    c.fillText('BAG (1)', bx + 66, by - 48);
+    c.fillText('SAC (1)', bx + 66, by - 48);
     c.font = font(F.mono(400), 11);
     c.fillStyle = rgba('acid', 0.9);
-    c.fillText('CONTENTS: FUNGAL', bx + 66, by - 24);
+    c.fillText('CONTENU : FONGIQUE', bx + 66, by - 24);
     c.restore();
   }
 }

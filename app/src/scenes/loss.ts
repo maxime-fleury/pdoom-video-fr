@@ -238,17 +238,17 @@ export default class LossScene extends Scene {
   override async init() {
     const ly = this.ctx.lyrics, au = this.ctx.audio;
     this.T0 = this.ctx.start; this.T1 = this.ctx.end;
-    this.L1 = ly.get('sudden drop');
-    this.L2 = ly.get('your servant');
+    this.L1 = ly.get('chute soudaine');
+    this.L2 = ly.get('ton serviteur');
     const w1 = (q: string) => findWord(this.L1, q), w2 = (q: string) => findWord(this.L2, q);
-    this.tThere = w1('There').start;
-    this.tSudden = w1('sudden').start;
-    this.tDrop = w1('drop').start;
-    this.tIn = w1('in').start;
-    this.tLossEnd = w1('loss,').end;
-    this.tNow = w2('now').start;
-    this.tServ = w2('servant').start;
-    this.tAnd = w2('and').start;
+    this.tThere = w1('Il').start;
+    this.tSudden = w1('soudaine').start;
+    this.tDrop = w1('chute').start;
+    this.tIn = w1('dans').start;
+    this.tLossEnd = w1('loss').end;
+    this.tNow = w2('Me').start;
+    this.tServ = w2('serviteur').start;
+    this.tAnd = w2('et').start;
     this.tBoss = w2('boss').start;
     this.dbs = au.downbeats.filter((d) => d > this.T0 + 0.05 && d < this.T1 - 0.05);
     /** Nearest beat (or downbeat) to `target` inside [lo, hi]; falls back to the target itself. */
@@ -266,7 +266,7 @@ export default class LossScene extends Scene {
     this.tRoll = pick(this.tBoss, this.tAnd + 0.3, this.T1 - 0.5); // roll on "boss"
 
     // --- chart lyric layout ("There was a sudden")
-    const idxSudden = this.L1.words.findIndex((w) => norm(w.w) === 'sudden');
+    const idxSudden = this.L1.words.findIndex((w) => norm(w.w) === 'soudaine');
     this.words1 = this.L1.words.slice(0, idxSudden + 1);
     this.lay1 = spacedLayout(this.words1.map((w) => w.w).join(' '), this.famLyric, SPACE_EM);
     const sc = TXT / 100;
@@ -373,8 +373,8 @@ export default class LossScene extends Scene {
       found.push({ u, v });
     }
     found.sort((a, b) => a.v - b.v);
-    for (const m of found.slice(0, 4)) this.labels.push({ p: { x: this.xC + m.u, y: YR + terrH(m.u, m.v) + 0.05, z: -m.v }, ang: { x: 1, y: 0, z: 0 }, text: 'local min.', kind: 'min' });
-    this.labels.push({ p: { x: this.xC + UB, y: YR + BOWL0 - 0.2, z: -VB }, ang: { x: 1, y: 0, z: 0 }, text: 'sharp minimum', sub: '(generalizes poorly)', kind: 'pit' });
+    for (const m of found.slice(0, 4)) this.labels.push({ p: { x: this.xC + m.u, y: YR + terrH(m.u, m.v) + 0.05, z: -m.v }, ang: { x: 1, y: 0, z: 0 }, text: 'min. local', kind: 'min' });
+    this.labels.push({ p: { x: this.xC + UB, y: YR + BOWL0 - 0.2, z: -VB }, ang: { x: 1, y: 0, z: 0 }, text: 'minimum aigu', sub: '(généralise mal)', kind: 'pit' });
   }
 
   // ---------------------------------------------------------------- helpers
@@ -775,7 +775,7 @@ export default class LossScene extends Scene {
         c.font = font(F.mono(500), fsz(p, 0.19));
         c.letterSpacing = '3px'; c.textAlign = 'right';
         c.fillStyle = rgba('bone', 0.75 * labA);
-        c.fillText('LOSS (LOG)', 0, 0);
+        c.fillText('PERTE (LOG)', 0, 0);
         c.restore();
       }
       const q = P(CW, -1.05);
@@ -783,14 +783,14 @@ export default class LossScene extends Scene {
         c.font = font(F.mono(500), fsz(q, 0.19));
         c.letterSpacing = '3px'; c.textAlign = 'right';
         c.fillStyle = rgba('bone', 0.75 * labA);
-        c.fillText('STEP →', q.x, q.y);
+        c.fillText('PAS →', q.x, q.y);
       }
       const r = P(0.3, yOfLog(1) + 0.55);
       if (r) {
         c.font = font(F.mono(400), fsz(r, 0.18));
         c.letterSpacing = '1px'; c.textAlign = 'left';
         c.fillStyle = rgba('ash', 0.9 * labA);
-        const s = 'train/loss   run: you-and-me-v2   smoothing: 0';
+        const s = 'train/loss   run: toi-et-moi-v2   lissage : 0';
         c.fillText(s.slice(0, Math.floor(s.length * prog(t, this.T0 + 0.1, this.T0 + 0.7))), r.x, r.y);
       }
       c.letterSpacing = '0px';
@@ -828,7 +828,7 @@ export default class LossScene extends Scene {
       ci += w.w.length + 1;
     }
     // ---- "drop": upright letters stacked down the cliff, spreading as the fall accelerates
-    const wd = findWord(this.L1, 'drop');
+    const wd = findWord(this.L1, 'chute');
     const chars = Array.from(wd.w);
     const famD = F.archivo(62, 900);
     c.font = font(famD, 100);
@@ -964,7 +964,7 @@ export default class LossScene extends Scene {
     if (t < this.tNow - 0.05) return;
     const roll = this.rollAngle(t);
     const ws = this.L2.words;
-    const wServ = findWord(this.L2, 'servant'), wBoss = findWord(this.L2, 'boss');
+    const wServ = findWord(this.L2, 'serviteur'), wBoss = findWord(this.L2, 'boss');
     const iServ = ws.indexOf(wServ), iBoss = ws.indexOf(wBoss);
     const wNow = ws.slice(0, iServ), wAnd = ws.slice(iServ + 1, iBoss);
     c.save();

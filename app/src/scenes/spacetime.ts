@@ -115,7 +115,7 @@ export default class SpacetimeScene extends Scene {
   // ---- content
   s1!: Stroke2;
   big = F.archivo(100, 900);
-  nowLay!: TextLayout; nowX0 = 0; nowBase = 0; nowSize = 380; butSize = 118;
+  nowLay!: TextLayout; nowX0 = 0; nowBase = 0; nowSize = 280; butSize = 118;
   ringGlyphs: SrcGlyph[] = []; ringFam = F.archivo(87.5, 900);
   begunLay!: TextLayout; begunGlyphT: [number, number][] = [];
   flowT: Float32Array = new Float32Array(0);
@@ -128,26 +128,26 @@ export default class SpacetimeScene extends Scene {
   override async init() {
     const ly = this.ctx.lyrics, au = this.ctx.audio;
     this.T0 = this.ctx.start; this.T1 = this.ctx.end;
-    this.l1 = ly.get('stable training run');
-    this.l2 = ly.get('singularity');
-    this.l3 = ly.get('optimizing');
-    this.l4 = ly.get('atoms');
+    this.l1 = ly.get('training run bien stable');
+    this.l2 = ly.get('singularité');
+    this.l3 = ly.get('optimises');
+    this.l4 = ly.get('atomes');
     this.wBut = this.l2.words[0]!;
-    this.wNow = findWord(this.l2, 'now');
-    this.wThe = findWord(this.l2, 'the');
-    this.wSing = findWord(this.l2, "singularity's");
-    this.wBegun = findWord(this.l2, 'begun');
+    this.wNow = findWord(this.l2, 'Mais');
+    this.wThe = findWord(this.l2, 'la');
+    this.wSing = findWord(this.l2, 'singularité');
+    this.wBegun = findWord(this.l2, 'commencé');
     this.tBut = this.wBut.start;
     // the transformation lands on the beat of "now"
     this.tNow = Math.max(this.tBut + 0.12, au.nearestBeat(this.wNow.start));
     this.tAnd = this.l3.words[0]!.start;
     this.tM3 = au.timeOfBeat(Math.ceil(au.beatAt(this.tAnd) - 0.05));
-    this.tOpt = findWord(this.l3, 'optimizing,').start;
-    const wA = findWord(this.l3, 'accelerating,');
+    this.tOpt = findWord(this.l3, 'optimises,').start;
+    const wA = findWord(this.l3, 'accélères');
     this.tAcc = wA.start; this.tAccEnd = wA.end;
     this.tI = this.l4.words[0]!.start;
-    this.tAtoms = findWord(this.l4, 'atoms').start;
-    const wR = findWord(this.l4, 'rearranging');
+    this.tAtoms = findWord(this.l4, 'atomes').start;
+    const wR = findWord(this.l4, 'réarranger');
     this.tRe = wR.start; this.tReEnd = wR.end;
     const downIn = (lo: number, hi: number) => au.downbeats.find((d) => d > lo && d < hi);
     const beatAfter = (x: number) => au.timeOfBeat(Math.ceil(au.beatAt(x) - 1e-3));
@@ -178,7 +178,8 @@ export default class SpacetimeScene extends Scene {
     {
       const mc = document.createElement('canvas').getContext('2d')!;
       mc.font = font(this.big, this.nowSize);
-      this.nowLay = layout('NOW', this.big, this.nowSize);
+      this.nowLay = layout('COMMENCÉ', this.big, this.nowSize);
+      // le cercle du trou noir tient lieu de O de « COMMENCÉ »
       const o = this.nowLay.glyphs[1]!;
       const m = mc.measureText('O');
       const oCy = (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2; // O centre above the baseline
@@ -394,25 +395,25 @@ export default class SpacetimeScene extends Scene {
     const blink = Math.floor(t * 8) % 2 === 0;
     c.fillStyle = rgba('bone', 0.75 * a);
     c.textAlign = 'left';
-    c.fillText('CH1  0.2 V/div  DC', 96, 92);
+    c.fillText('VOIE 1  0,2 V/div  DC', 96, 92);
     c.fillStyle = rgba('ash', 0.8 * a);
     c.fillText(`f = ${but > 0 ? '→ ∞' : hz.toFixed(3)} Hz`, 96, 120);
     c.fillStyle = rgba('bone', 0.75 * a);
-    c.fillText('CH2  P(doom)', 96, 160);
+    c.fillText('VOIE 2  P(doom)', 96, 160);
     c.fillStyle = rgba('signal', 0.95 * a);
-    c.fillText(formatPDoom(this.pd.value(t)), 96 + c.measureText('CH2  P(doom)  ').width, 160);
+    c.fillText(formatPDoom(this.pd.value(t)), 96 + c.measureText('VOIE 2  P(doom)  ').width, 160);
     c.fillStyle = rgba('ash', 0.7 * a);
-    c.fillText('(muted)', 96, 188);
+    c.fillText('(coupée)', 96, 188);
     c.textAlign = 'right';
     c.fillStyle = rgba('bone', 0.75 * a);
     c.fillText(`M  ${(60000 / bpm / 4).toFixed(1)} ms/div`, W - 96, 92);
-    const trig = but > 0 ? (blink ? 'NO SIGNAL' : '') : "TRIG'D    CH1";
+    const trig = but > 0 ? (blink ? 'PAS DE SIGNAL' : '') : 'DÉCL.    VOIE 1';
     c.fillStyle = but > 0 ? rgba('signal', a) : rgba('ash', 0.8 * a);
     c.fillText(trig, W - 96, 120);
     if (but <= 0) {
       // ▲ (not in Plex Mono): a small triangle drawn in the blank cell before "CH1"
       const cell = c.measureText(' ').width;
-      const tx = W - 96 - c.measureText(' CH1').width - cell + (cell - 2) / 2;
+      const tx = W - 96 - c.measureText(' VOIE 1').width - cell + (cell - 2) / 2;
       c.beginPath(); c.moveTo(tx - 5.2, 120); c.lineTo(tx + 5.2, 120); c.lineTo(tx, 120 - 9.4); c.closePath(); c.fill();
     }
     // the run's own vital sign, calm, ticking down
@@ -491,7 +492,7 @@ export default class SpacetimeScene extends Scene {
       c.scale(slB, slB);
       c.font = font(this.big, this.butSize);
       c.fillStyle = heatCol(t - this.tBut, 0.96 * aB);
-      c.fillText('BUT', 0, 0);
+      c.fillText('MAIS', 0, 0);
       c.restore();
       if (t >= this.wNow.start) {
         const aN = prog(t, this.wNow.start, this.wNow.start + 0.03) * (1 - gone);
@@ -500,7 +501,7 @@ export default class SpacetimeScene extends Scene {
         c.translate(C.x, C.y); c.scale(slN, slN); c.translate(-C.x, -C.y);
         c.font = font(this.big, this.nowSize);
         c.fillStyle = heatCol(t - this.wNow.start, 0.97 * aN);
-        c.fillText('NOW', this.nowX0, this.nowBase);
+        c.fillText('COMMENCÉ', this.nowX0, this.nowBase);
         c.restore();
       }
       if (t >= this.wThe.start) {
@@ -508,7 +509,7 @@ export default class SpacetimeScene extends Scene {
         c.font = font(this.big, this.butSize);
         c.textAlign = 'right';
         c.fillStyle = heatCol(t - this.wThe.start, 0.96 * aT);
-        c.fillText('THE', this.nowX0 + this.nowLay.width, this.nowBase + this.butSize + 34);
+        c.fillText('LA', this.nowX0 + this.nowLay.width, this.nowBase + this.butSize + 34);
         c.textAlign = 'left';
       }
       c.restore();

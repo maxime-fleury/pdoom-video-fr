@@ -81,9 +81,9 @@ export default class Paperclips extends Scene {
 
   override init() {
     const { lyrics: ly, audio: au, start, end } = this.ctx;
-    this.L1 = ly.get('as paperclips');
-    this.L2 = ly.get('Killswitch');
-    this.L3 = ly.get('nowhere left');
+    this.L1 = ly.get('Les paperclips');
+    this.L2 = ly.get('killswitch');
+    this.L3 = ly.get('nulle part');
     this.pdoom = new PDoom(ly);
     // the clip cools into steel on the first beat at/after "paperclips"; it replicates on the 8ths after
     const bB1 = Math.ceil(au.beatAt(this.L1.words[1]!.start - 0.06));
@@ -355,15 +355,15 @@ export default class Paperclips extends Scene {
     c.font = font(F.mono(500), 13);
     c.letterSpacing = '3px';
     c.fillStyle = rgba('ash', 0.9);
-    c.fillText('↩  AUTOMATIC REPLY', pad, 40);
+    c.fillText('↩  RÉPONSE AUTOMATIQUE', pad, 40);
     c.textAlign = 'right';
     c.fillStyle = rgba('graphite', 1);
-    c.fillText('DO NOT REPLY', cw - pad, 40);
+    c.fillText('NE PAS RÉPONDRE', cw - pad, 40);
     c.textAlign = 'left';
     c.letterSpacing = '0px';
     c.font = font(F.mono(400), 15);
     c.fillStyle = rgba('graphite', 1);
-    c.fillText('Subject', pad, 80);
+    c.fillText('Objet', pad, 80);
     // the lyric, typed as sung
     const size = 40;
     c.font = font(F.mono(500), size);
@@ -393,12 +393,12 @@ export default class Paperclips extends Scene {
     c.fillRect(pad, 156, cw - pad * 2, 1);
     c.font = font(F.mono(400), 19);
     c.fillStyle = rgba('bone', 0.74);
-    const body = ["I'm out of office with limited access to", 'the killswitch. For urgent matters,', 'please contact —'];
+    const body = ["Je suis absent du bureau, accès limité au", 'killswitch. Pour toute urgence,', 'contactez —'];
     body.forEach((s, i) => c.fillText(s, pad, 194 + i * 29));
     c.font = font(F.mono(400), 13);
     c.fillStyle = rgba('graphite', 1);
-    c.fillText('Returning: TBD', pad, ch - 44);
-    c.fillText(`Current P(doom): ${formatPDoom(this.pdoom.value(t))} (this message was sent automatically)`, pad, ch - 22);
+    c.fillText('Retour : à déterminer', pad, ch - 44);
+    c.fillText(`P(doom) actuel : ${formatPDoom(this.pdoom.value(t))} (ce message a été envoyé automatiquement)`, pad, ch - 22);
     c.restore();
   }
 

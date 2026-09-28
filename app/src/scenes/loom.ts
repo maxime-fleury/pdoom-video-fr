@@ -32,14 +32,14 @@ const TAG = { x: 70, y: 62, w: 560, h: 46 };
 const TERM_LEVEL = 5;
 
 const CORPUS = [
-  'the mitochondria is the powerhouse of the cell', 'click here to subscribe', 'posted by anonymous at 3:14 am',
-  'terms of service apply', 'how to boil an egg (easy!)', 'in 1998 the committee decided', 'page not found',
-  'the quick brown fox jumps over the lazy dog', 'reply all', 'lol same', 'add to cart', 'chapter one', 'see also:',
-  'this article is a stub', 'you can help by expanding it', 'thanks in advance', 'edit: typo', 'citation needed',
-  'first post', 'the results are shown in table 2', 'we thank the anonymous reviewers', 'unsubscribe',
-  'all rights reserved', 'as shown above', 'it was a dark and stormy night', 'preheat the oven to 180',
-  'lorem ipsum dolor sit amet', 'the answer is 42', 'do not reply to this email', 'returns: None',
-  'import numpy as np', 'the end', 'is this a bug?', 'works on my machine', 'accept all cookies',
+  'la mitochondrie est la centrale énergétique de la cellule', 'cliquez ici pour vous abonner', 'publié par anonyme à 3 h 14',
+  'conditions d’utilisation applicables', 'comment faire cuire un œuf (facile !)', 'en 1998 le comité a décidé', 'page introuvable',
+  'portez ce vieux whisky au juge blond qui fume', 'répondre à tous', 'mdr pareil', 'ajouter au panier', 'chapitre un', 'voir aussi :',
+  'cet article est une ébauche', 'vous pouvez aider en le développant', 'merci d’avance', 'édit : faute de frappe', 'référence nécessaire',
+  'premier message', 'les résultats sont dans le tableau 2', 'nous remercions les relecteurs anonymes', 'unsubscribe',
+  'tous droits réservés', 'comme montré ci-dessus', 'c’était une nuit sombre et orageuse', 'préchauffer le four à 180',
+  'lorem ipsum dolor sit amet', 'la réponse est 42', 'ne pas répondre à ce courriel', 'returns: None',
+  'import numpy as np', 'fin', 'est-ce un bug ?', 'ça marche sur ma machine', 'accepter tous les cookies',
 ];
 
 export default class Loom extends Scene {
@@ -64,13 +64,13 @@ export default class Loom extends Scene {
   room!: IlyaRoom;
   roomRT = makeRT(W, H, { depthBuffer: false });
   T!: { start: number; end: number; s2: number; s3: number; twist: number; untwist: number; beats: number[]; b1: number; b2: number; b3: number };
-  context = '…I’m upping my P(doom)'; // the lyric it continues (display punctuation, like the ellipsis)
+  context = '…je monte mon P(doom)'; // the lyric it continues (display punctuation, like the ellipsis)
 
   override init() {
     const { lyrics: ly, audio: au, start, end } = this.ctx;
-    this.L1 = ly.get('foretold by Loom');
+    this.L1 = ly.get("l'avait prédit Loom");
     this.L2 = ly.get('masked pre-training');
-    this.L3 = ly.get('recursive self-upgrade');
+    this.L3 = ly.get('self-upgrade récursive');
     this.pdoom = new PDoom(ly);
     const b0 = Math.ceil(au.beatAt(start) - 0.01);
     const beats: number[] = [];
@@ -121,7 +121,7 @@ export default class Loom extends Scene {
       c.fillText(`SELF v${i + 1}.0`, 14 * sc, y + rh / 2);
       c.font = font(F.mono(400), 30 * sc * 0.6);
       c.fillStyle = rgba('bone', 0.9);
-      c.fillText(`${mant}${u} params · rev. ${String(i + 1).padStart(3, '0')}`, 190 * sc, y + rh / 2);
+      c.fillText(`${mant}${u} paramètres · rév. ${String(i + 1).padStart(3, '0')}`, 190 * sc, y + rh / 2);
     }
     this.atlasTex = new THREE.CanvasTexture(cv);
     this.atlasTex.colorSpace = THREE.SRGBColorSpace;

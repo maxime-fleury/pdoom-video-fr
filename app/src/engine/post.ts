@@ -88,7 +88,8 @@ export class Post {
 ${SCALE === 1 ? `        c += texture(src, vUv + texel * vec2(-1, -1)).rgb; c += texture(src, vUv + texel * vec2(1, -1)).rgb;
         c += texture(src, vUv + texel * vec2(-1, 1)).rgb;  c += texture(src, vUv + texel * vec2(1, 1)).rgb;
         c *= 0.25;` : `        // output scale > 1: the same 4x4-logical-px box from a SCALE x larger source, as 2x2-texel bilinear taps
-        const int N = ${SCALE * 2};
+        // (N has to be a whole number: SCALE may be fractional, e.g. 1.3333 for a 2560x1440 render)
+        const int N = ${Math.max(2, Math.round(SCALE * 2))};
         for (int j = 0; j < N; j++) for (int i = 0; i < N; i++)
           c += texture(src, vUv + texel * (vec2(float(i), float(j)) * 2.0 - float(N - 1)) / PX_SCALE).rgb;
         c /= float(N * N);`}
