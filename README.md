@@ -155,9 +155,15 @@ un cran plus haut parce qu'une image 2K coûte plus cher à encoder.
   (200 s à 60 i/s, 12 000 images) se compte donc en heures avec une seule instance, et en
   une vingtaine de minutes avec `render-chunks.sh`.
 - **Encodage :** le grain coûte cher à encoder : en CRF 17 le fichier 1080p60 monte à
-  ~58 Mbit/s (1,4 Go). `--crf 20` donne ~20-25 Mbit/s, ce qui tient sous la limite de 512 Mo
-  d'un envoi sur X tout en restant très au-dessus des 12 Mbit/s recommandés par YouTube en
-  1080p60.
+  ~58 Mbit/s (1,4 Go). Le rendu de référence de ce fork est en `--crf 20` : **612 Mo et
+  24,5 Mbit/s** pour 199,93 s — très au-dessus des 12 Mbit/s que YouTube recommande en
+  1080p60, mais au-dessus de la limite de 512 Mo d'un envoi sur X. Pour X, réencodez une
+  copie plus légère et gardez l'autre comme master YouTube :
+
+  ```sh
+  ffmpeg -i out/pdoom-fr-1080p60.mp4 -c:v libx264 -preset slow -crf 22 -pix_fmt yuv420p \
+    -tune grain -c:a copy out/pdoom-fr-x.mp4
+  ```
 - `--scale 2` marche avec tous les modes (`stills` enregistre alors des PNG pleine
   résolution, `perf` mesure les temps d'image en 4K). Dans l'aperçu navigateur, ajoutez
   `&scale=2` à l'URL.
